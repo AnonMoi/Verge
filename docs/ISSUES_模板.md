@@ -15,27 +15,21 @@
 | 胡宗跃 | @Hzy-0313 | **剧情与关卡设计** | 世界观设定、剧情文本、关卡策划、Boss 设计 |
 | 赵晨浩 | @ZhaoChenhao6 | **测试与版本管理** | 完整功能测试、Bug 记录与追踪、文件统筹、版本发布、答辩演示 |
 
-## Issue 1: 项目工程 — 完善项目基础配置
+## Issue 1: 项目工程 — 完善项目基础配置 ✅
 
 **标题**: 完善项目工程配置（LICENSE + CONTRIBUTING + CI/CD）
 
 **内容**:
 ```
-## 任务描述
-项目缺少开源项目必需的基础文件，需要补充。
-
-## 待完成
-- [ ] 添加 MIT LICENSE 文件
-- [ ] 添加 CONTRIBUTING.md 贡献指南
-- [ ] 配置 GitHub Actions（GDScript 语法检查 + Godot 导出）
-
-## 完成标准
-- 仓库根目录存在 LICENSE 和 CONTRIBUTING.md
-- GitHub Actions 工作流正常运行
+## 已完成
+- [x] 添加 MIT LICENSE 文件
+- [x] 添加 CONTRIBUTING.md 贡献指南
+- [x] 配置 GitHub Actions（GDScript 语法检查 + Godot 导出）
 ```
 
-**标签**: `documentation`, `enhancement`
+**标签**: `documentation`
 **负责人**: @AnonMoi
+**状态**: ✅ 已完成，无需创建
 
 ---
 
