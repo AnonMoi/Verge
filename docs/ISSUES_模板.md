@@ -55,28 +55,28 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 3: 敌人系统 — 敌人视觉差异化
+## Issue 3: 敌人系统 — 敌人精灵图差异化
 
-**标题**: [P0] 三种敌人视觉差异化（颜色/体型区分）
+**标题**: [P0] 三种敌人使用不同精灵图（已完成配色区分，需确认）
 
 **内容**:
 ```
-## 问题描述
-三种敌人（混沌杂兵/迅捷鬼影/黑铁精英）目前视觉完全相同，无法在战斗中区分。
+## 现状
+三种敌人已各自使用不同的精灵图资源：
+- enemy.tscn（混沌杂兵）→ Blue_Slime 素材
+- enemy_ghost.tscn（迅捷鬼影）→ Minotaur_1 素材，已调为半透明黄色
+- enemy_elite.tscn（黑铁精英）→ Blue_Slime 素材，已调为紫色调 + 放大
 
-## 期望行为
-- 混沌杂兵：绿色/青色
-- 迅捷鬼影：黄色，体型略小
-- 黑铁精英：暗红色，体型较大
-
-## 实现方式
-修改 enemy.tscn 中 AnimatedSprite2D 的 modulate 颜色，
-或为不同敌人使用不同的 sprite_frames。
+## 待确认
+- [ ] 三种敌人视觉上能明显区分
+- [ ] enemy_elite 是否需要使用独立素材（当前复用 Blue_Slime，仅调色）
+- [ ] 各敌人精灵帧配置是否正确（idle/attack/hit/death 动画）
 
 ## 涉及文件
 - scenes/main_game/enemy.tscn
 - scenes/main_game/enemy_ghost.tscn
 - scenes/main_game/enemy_elite.tscn
+- scenes/main_game/enemy_grunt.tscn
 ```
 
 **标签**: `enhancement`, `P0`
@@ -116,7 +116,7 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ## Issue 5: 视觉特效 — 添加游戏特效
 
-**标题**: 添加游戏视觉特效（攻击特效/死亡特效/黎明特效增强/伤害数字）
+**标题**: 添加游戏视觉特效（攻击特效/死亡特效/黎明增强/伤害数字）
 
 **内容**:
 ```
@@ -126,7 +126,6 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 ## 待完成
 - [ ] 攻击命中特效（近战刀光 / 远程子弹命中闪光）
 - [ ] 敌人死亡特效（碎裂/消散动画）
-- [ ] 角色死亡特效（消散动画）
 - [ ] 伤害数字飘字（从受击单位上浮，红色数字）
 - [ ] 金矿产出金币飘字（+10 金）
 - [ ] 黎明特效增强（当前已有基础白闪，可添加粒子/光柱）
@@ -135,7 +134,6 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 ## 涉及文件
 - scenes/effects/（新建特效场景）
 - scripts/effects/（新建特效脚本）
-- scripts/ui/hud.gd（伤害数字显示）
 ```
 
 **标签**: `enhancement`, `feature`
@@ -143,23 +141,23 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 6: 角色美术 — 完善角色动画资源
+## Issue 6: 角色美术 — 完善精灵动画帧 ✅
 
-**标题**: 完善角色 AnimatedSprite2D 动画资源
+**标题**: 完善角色 AnimatedSprite2D 动画帧配置
 
 **内容**:
 ```
-## 任务描述
-当前角色已有基础 AnimatedSprite2D（待机/攻击），需要完善和优化。
+## 现状（已完成）
+三个角色已使用独立的精灵图资源：
+- 先锋 Pioneer → rika_9721bbe0.png（attack 16帧 + default 1帧）
+- 重装 Defender → rika_8ad2355f.png（attack 16帧 + default 1帧）
+- 狙击 Sniper → rika_3f8e6078 (1).png（attack 24帧 + default 1帧）
 
-## 待完成
-- [ ] 检查并优化三个角色的 sprite_frames（先锋/重装/狙击）
-- [ ] 确保 attack 动画帧数合理、循环正确
-- [ ] 确保 default（待机）动画正常播放
+## 待优化
 - [ ] 添加 hit（受击）动画帧
 - [ ] 添加 death（死亡）动画帧
-- [ ] 调整角色 scale 使尺寸统一协调
-- [ ] 优化角色在场景中的视觉表现
+- [ ] 调整角色 scale 使三个角色尺寸统一协调
+- [ ] 确认 attack 动画帧数与攻击冷却时间匹配
 
 ## 涉及文件
 - character_sources/（美术源文件）
@@ -173,27 +171,32 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 7: 场景美术 — 地图背景与 UI 美化
+## Issue 7: 场景美术 — 地图背景分层与 UI 美化
 
-**标题**: 添加场景背景美术和 UI 美化
+**标题**: 使用分层素材替换单一背景图 + UI 面板美化
 
 **内容**:
 ```
-## 任务描述
-当前游戏使用纯色背景（深色 ColorRect），需要添加场景背景和 UI 美化。
+## 现状
+- 当前背景使用单一图片 Battleground1.png（1920x1080 TextureRect）
+- character_sources/PNG/ 下有 4 套完整的分层战场素材（Battleground1~4，各含 sky/hills/ruins/statue 等图层）
+- PathVisual 仍为纯灰 ColorRect，无纹理
 
 ## 待完成
-- [ ] 设计或制作教学关地图背景（路径区域 + 装饰元素）
-- [ ] 添加地面纹理/网格线美化
-- [ ] UI 面板美化（暂停菜单/胜利面板/失败面板 的背景纹理或边框装饰）
-- [ ] HUD 顶部信息栏美化（金币/核心HP/阶段图标）
-- [ ] 部署按钮美化（角色头像图标替代纯文字按钮）
-- [ ] 高台位视觉标识（当前仅蓝色高亮，可设计更好看的标记）
+- [ ] 用分层素材（sky + hills + ruins + ground 等）替换单一背景图
+- [ ] 根据时间阶段切换背景色调（白天亮色 / 夜晚暗色）
+- [ ] 路径格纹理化（替换纯灰 ColorRect 为石板/草地纹理）
+- [ ] HUD 顶部栏美化（金币/核心HP 图标替换 emoji）
+- [ ] 部署按钮美化（角色头像图标 + 费用，替代纯文字按钮）
+- [ ] 高台位视觉标识美化（当前仅蓝色半透明高亮）
+
+## 可用素材
+character_sources/PNG/ 下 4 套战场背景，每套含 Bright/Pale 两种色调变体
 
 ## 涉及文件
-- character_sources/（美术素材）
-- scenes/main_game/main_game.tscn（背景/网格）
-- scripts/ui/（各 UI 面板脚本中的 StyleBox 配色）
+- scenes/main_game/main_game.tscn（Background + PathVisual 节点）
+- scripts/ui/deploy_panel.gd（部署按钮样式）
+- scripts/ui/hud.gd（HUD 图标）
 ```
 
 **标签**: `enhancement`, `art`
@@ -201,9 +204,9 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 8: 剧情系统 — 添加剧情文本和大纲
+## Issue 8: 剧情系统 — 添加世界观与剧情文本
 
-**标题**: 添加游戏剧情文本与世界观大纲
+**标题**: 添加游戏世界观设定与剧情文本
 
 **内容**:
 ```
@@ -213,15 +216,13 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 ## 待完成
 - [ ] 编写世界观背景设定（钟摆核心的来历、时间循环的成因）
 - [ ] 编写角色背景故事（先锋/重装/狙击 各 100-200 字）
-- [ ] 编写敌人背景描述（混沌杂兵/迅捷鬼影/黑铁精英）
+- [ ] 编写敌人背景描述（混沌杂兵/迅捷鬼影/黑铁精英 对应 Blue_Slime/Gorgon/Minotaur 的设定）
 - [ ] 编写教学关剧情文本（白天开始/夜晚开始/黎明/胜利/失败 的旁白或对话）
 - [ ] 设计后续章节剧情大纲（第一章「暗夜突袭」等）
-- [ ] 编写启动画面上的副标题文案（当前：「钟摆未眠，黎明将至」）
 
 ## 涉及文件
-- 新建 docs/剧情设计.md
 - 新建 docs/世界观设定.md
-- scripts/ui/menu/splash_screen.gd（如有需要改启动画面文案）
+- 新建 docs/剧情设计.md
 ```
 
 **标签**: `documentation`, `design`
@@ -229,14 +230,14 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 9: 关卡设计 — 第一章「暗夜突袭」关卡策划
+## Issue 9: 关卡设计 — 第一章「暗夜突袭」策划
 
 **标题**: 设计第一章「暗夜突袭」关卡配置
 
 **内容**:
 ```
 ## 任务描述
-当前仅有教学关，需要策划第一章正式关卡的内容。
+当前仅有教学关，需要策划第一章正式关卡。
 
 ## 待完成
 - [ ] 编写第一章剧情大纲（故事背景、出场角色、Boss 设定）
@@ -244,6 +245,9 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 - [ ] 设计敌人波次配置（Day 1~4 每天黄昏+夜晚的出怪计划）
 - [ ] 设计 Boss 机制（如有）
 - [ ] 编写关卡对话/旁白文本
+
+## 可用素材
+character_sources/PNG/ 下 Battleground2~4 可作为新关卡背景素材
 
 ## 涉及文件
 - 新建 docs/关卡设计_第一章.md
@@ -273,6 +277,7 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 - [ ] 倍速 1x ↔ 2x 切换
 - [ ] 从胜利/失败面板返回章节选择/主菜单
 - [ ] 窗口缩放时 UI 是否正常
+- [ ] 三种敌人精灵图是否正确显示
 
 ## 发现的问题
 （测试后在此 Issue 下用评论逐条记录，创建子 Issue 跟踪修复）
@@ -283,7 +288,7 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 11: 项目集成 — 文件统筹与版本管理
+## Issue 11: 项目集成 — 文件统筹与版本发布
 
 **标题**: 项目文件统筹、版本管理与最终集成
 
@@ -294,9 +299,9 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ## 待完成
 - [ ] 汇总各成员提交的代码/资源/文档，检查集成后能否正常运行
-- [ ] 处理文件冲突和重复资源
+- [ ] 清理未使用的素材文件（character_sources/ 下未被引用的 png/gif）
 - [ ] 检查 .gitignore 是否正确（排除 .godot/ .uid/ .import）
-- [ ] 整理 project.godot 的 Autoload 配置（新增 AudioManager 后）
+- [ ] 整理 project.godot 的 Autoload 配置（如新增 AudioManager 后需注册）
 - [ ] 最终版本验证（完整运行教学关，确认所有功能正常）
 - [ ] 删除测试快捷键（F3/F4）
 - [ ] 创建 v1.1.0 版本 Tag
