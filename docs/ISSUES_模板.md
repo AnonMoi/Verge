@@ -55,28 +55,31 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 3: 敌人系统 — 敌人精灵图差异化
+## Issue 3: 敌人系统 — 敌人精灵图配置 ✅
 
-**标题**: [P0] 三种敌人使用不同精灵图（已完成配色区分，需确认）
+**标题**: [P0] 三种敌人精灵图配置（已完成，待优化）
 
 **内容**:
 ```
-## 现状
-三种敌人已各自使用不同的精灵图资源：
-- enemy.tscn（混沌杂兵）→ Blue_Slime 素材
-- enemy_ghost.tscn（迅捷鬼影）→ Minotaur_1 素材，已调为半透明黄色
-- enemy_elite.tscn（黑铁精英）→ Blue_Slime 素材，已调为紫色调 + 放大
+## 已完成
+三种敌人已各自使用独立的精灵图资源，包含完整的 idle/attack/hit/death 动画：
+- 混沌杂兵（chaos_grunt）→ Blue_Slime 素材（7帧 attack / 3帧 death / 6帧 hit / 8帧 idle）
+- 迅捷鬼影（swift_ghost）→ Minotaur_1 素材（5帧 attack / 5帧 death / 3帧 hit / 12帧 idle），半透明黄色调
+- 黑铁精英（iron_elite）→ Blue_Slime 素材（复用），紫色调 + 放大 1.3x/1.4x
 
-## 待确认
-- [ ] 三种敌人视觉上能明显区分
-- [ ] enemy_elite 是否需要使用独立素材（当前复用 Blue_Slime，仅调色）
-- [ ] 各敌人精灵帧配置是否正确（idle/attack/hit/death 动画）
+## 待优化
+- [ ] enemy_elite 是否需要独立素材（当前复用 Blue_Slime，仅 modulate 调色+scale 放大）
+- [ ] 未使用的精灵帧是否需要清理（Blue_Slime: Jump/Run/Run+Attack 等未被引用）
+- [ ] 确认各动画帧数与游戏实际表现匹配
 
 ## 涉及文件
 - scenes/main_game/enemy.tscn
 - scenes/main_game/enemy_ghost.tscn
 - scenes/main_game/enemy_elite.tscn
 - scenes/main_game/enemy_grunt.tscn
+- character_sources/Blue_Slime/
+- character_sources/Gorgon_1/
+- character_sources/Minotaur_1/
 ```
 
 **标签**: `enhancement`, `P0`
@@ -143,12 +146,12 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ## Issue 6: 角色美术 — 完善精灵动画帧 ✅
 
-**标题**: 完善角色 AnimatedSprite2D 动画帧配置
+**标题**: 完善角色 AnimatedSprite2D 动画帧配置（已有基础，待优化）
 
 **内容**:
 ```
-## 现状（已完成）
-三个角色已使用独立的精灵图资源：
+## 已完成
+三个角色已使用独立的精灵图资源，含 attack + default 动画：
 - 先锋 Pioneer → rika_9721bbe0.png（attack 16帧 + default 1帧）
 - 重装 Defender → rika_8ad2355f.png（attack 16帧 + default 1帧）
 - 狙击 Sniper → rika_3f8e6078 (1).png（attack 24帧 + default 1帧）
@@ -171,14 +174,15 @@ character_base.gd 中有 block_count 属性（先锋2/重装4），但 enemy_mov
 
 ---
 
-## Issue 7: 场景美术 — 地图背景分层与 UI 美化
+## Issue 7: 场景美术 — 地图背景分层与 UI 美化 ✅
 
-**标题**: 使用分层素材替换单一背景图 + UI 面板美化
+**标题**: 使用分层素材替换单一背景图 + UI 面板美化（已有基础，待完善）
 
 **内容**:
 ```
-## 现状
-- 当前背景使用单一图片 Battleground1.png（1920x1080 TextureRect）
+## 已完成
+- 教学关背景已使用 Battleground1.png（1920x1080）
+- 核心（Core）已使用独立精灵图：5abb8617a1f192f3f6334b8a8ff6d1d7-no-bg (2).png
 - character_sources/PNG/ 下有 4 套完整的分层战场素材（Battleground1~4，各含 sky/hills/ruins/statue 等图层）
 - PathVisual 仍为纯灰 ColorRect，无纹理
 
