@@ -71,12 +71,14 @@ func set_paused(paused: bool) -> void:
 func trigger_game_over() -> void:
 	is_game_over = true
 	is_paused = true
+	AudioManager.stop_bgm(0.3)
 	print("[GameManager] 游戏结束 — 第 %d 天" % current_day)
 
 func trigger_game_won(perfect: bool = false) -> void:
 	is_game_won = true
 	perfect_clear = perfect
 	is_paused = false
+	AudioManager.stop_bgm(0.3)
 	print("[GameManager] 关卡胜利! 完美通关: ", perfect)
 
 func next_day() -> void:

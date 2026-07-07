@@ -203,3 +203,13 @@ static func change_scene(path: String) -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree:
 		tree.change_scene_to_file(path)
+
+
+# ============ 按钮音效绑定 ============
+## 给按钮绑定触碰（hover）和点击（pressed）音效。
+## 任何创建按钮的地方都可以调用此方法。
+static func attach_button_sfx(btn: Button) -> void:
+	btn.mouse_entered.connect(func() -> void:
+		AudioManager.play_sfx("button_hover", 0.5))
+	btn.pressed.connect(func() -> void:
+		AudioManager.play_sfx("button_click", 0.6))

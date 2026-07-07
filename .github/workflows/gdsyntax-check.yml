@@ -1,5 +1,6 @@
 # GDScript 语法检查 + Godot 项目验证
 # 每次 push 或 PR 时自动检查所有 .gd 文件是否有语法错误
+# 使用 Python 解析器正确处理字符串/注释中的括号（避免 grep 误报）
 
 name: GDScript 语法检查
 
@@ -23,48 +24,119 @@ jobs:
 
       - name: GDScript 语法检查
         run: |
-          echo "=== 检查所有 .gd 文件语法 ==="
-          ERROR_COUNT=0
-          for file in $(find . -name "*.gd" -type f); do
-            # 检查基本语法：extends/class_name 声明、函数定义、缩进一致性
-            # 检查文件是否以有效的 GDScript 关键字开头
-            FIRST_LINE=$(head -1 "$file")
-            if [[ "$FIRST_LINE" == "" ]]; then
-              echo "⚠️  [警告] $file 第一行为空"
-            fi
+          python3 << 'PYEOF'
+          import os, re, sys
 
-            # 检查括号匹配
-            OPEN_COUNT=$(grep -o '(' "$file" | wc -l)
-            CLOSE_COUNT=$(grep -o ')' "$file" | wc -l)
-            if [ "$OPEN_COUNT" != "$CLOSE_COUNT" ]; then
-              echo "❌ [错误] $file 括号不匹配: 开括号 $OPEN_COUNT 个, 闭括号 $CLOSE_COUNT 个"
-              ERROR_COUNT=$((ERROR_COUNT + 1))
-            fi
+          def check_gd_file(filepath):
+              """正确解析 GDScript 文件的括号配对（跳过字符串和注释）"""
+              errors = []
+              try:
+                  with open(filepath, 'r', encoding='utf-8') as f:
+                      content = f.read()
+              except Exception as e:
+                  return [f"无法读取文件: {e}"]
 
-            # 检查是否有未闭合的字符串
-            if grep -Pn '(?<!\\)"' "$file" | head -1 > /dev/null; then
-              # 简单检测：单数引号
-              QUOTE_COUNT=$(grep -o '"' "$file" | wc -l)
-              if [ $((QUOTE_COUNT % 2)) -ne 0 ]; then
-                echo "❌ [错误] $file 字符串引号不匹配"
-                ERROR_COUNT=$((ERROR_COUNT + 1))
-              fi
-            fi
-          done
+              lines = content.split('\n')
+              stack = []
+              in_string = False
+              string_char = ''
+              in_line_comment = False
+              escape_next = False
+              bracket_map = {'(': ')', '[': ']', '{': '}'}
+              open_brackets = set(bracket_map.keys())
+              close_brackets = set(bracket_map.values())
 
-          if [ $ERROR_COUNT -gt 0 ]; then
-            echo "❌ 发现 $ERROR_COUNT 个语法错误"
-            exit 1
-          else
-            echo "✅ 所有 GDScript 文件语法检查通过"
-          fi
+              for line_num, line in enumerate(lines, 1):
+                  i = 0
+                  in_line_comment = False
+                  while i < len(line):
+                      ch = line[i]
+
+                      if escape_next:
+                          escape_next = False
+                          i += 1
+                          continue
+
+                      if in_string:
+                          if ch == '\\':
+                              escape_next = True
+                          elif ch == string_char:
+                              in_string = False
+                          i += 1
+                          continue
+
+                      if in_line_comment:
+                          i += 1
+                          continue
+
+                      # 行内注释 #
+                      if ch == '#':
+                          in_line_comment = True
+                          i += 1
+                          continue
+
+                      # 字符串开始 (支持 " 和 ')
+                      if ch in ('"', "'"):
+                          in_string = True
+                          string_char = ch
+                          i += 1
+                          continue
+
+                      # 括号匹配
+                      if ch in open_brackets:
+                          stack.append((ch, line_num, i))
+                      elif ch in close_brackets:
+                          if stack:
+                              expected_open = None
+                              for ob, cb in bracket_map.items():
+                                  if cb == ch:
+                                      expected_open = ob
+                                      break
+                              if stack[-1][0] != expected_open:
+                                  errors.append(f"第{line_num}行: 括号类型不匹配，期望 '{expected_open}' 的闭合，找到 '{ch}'")
+                              else:
+                                  stack.pop()
+                          else:
+                              errors.append(f"第{line_num}行: 多余的闭合括号 '{ch}'")
+
+                      i += 1
+
+              # 检查未闭合的括号
+              for open_ch, ln, col in stack:
+                  errors.append(f"第{ln}行: 未闭合的括号 '{open_ch}'")
+
+              return errors
+
+          error_count = 0
+          gd_files = []
+          for root, dirs, files in os.walk('.'):
+              for f in files:
+                  if f.endswith('.gd'):
+                      gd_files.append(os.path.join(root, f))
+
+          print(f"=== 检查 {len(gd_files)} 个 .gd 文件 ===\n")
+
+          for filepath in sorted(gd_files):
+              errs = check_gd_file(filepath)
+              if errs:
+                  rel = filepath[2:] if filepath.startswith('./') else filepath
+                  for e in errs:
+                      print(f"❌ [{rel}] {e}")
+                  error_count += len(errs)
+
+          print()
+          if error_count > 0:
+              print(f"❌ 发现 {error_count} 个语法错误")
+              sys.exit(1)
+          else:
+              print("✅ 所有 GDScript 文件语法检查通过")
+          PYEOF
 
       - name: 项目结构验证
         run: |
           echo "=== 验证项目结构 ==="
           ERRORS=0
 
-          # 检查必需文件
           if [ ! -f "project.godot" ]; then
             echo "❌ 缺少 project.godot"
             ERRORS=$((ERRORS + 1))
@@ -72,10 +144,8 @@ jobs:
             echo "✅ project.godot 存在"
           fi
 
-          # 检查场景文件引用
-          echo "--- 检查场景文件完整性 ---"
-          find scenes/ -name "*.tscn" -type f | while read tscn; do
-            # 提取 ext_resource 路径
+          echo "--- 检查场景文件引用 ---"
+          find scenes/ -name "*.tscn" -type f 2>/dev/null | while read tscn; do
             grep 'path="res://' "$tscn" 2>/dev/null | grep -oP 'res://[^"]+' | while read ref; do
               ref_path="${ref#res://}"
               if [ ! -f "$ref_path" ]; then
