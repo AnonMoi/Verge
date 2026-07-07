@@ -13,6 +13,7 @@ extends Control
 
 const TUTORIAL_SCENE := "res://scenes/main_game/main_game.tscn"
 const MAIN_MENU_SCENE := "res://scenes/menu/main_menu.tscn"
+const STORY_PLAYER_SCENE := "res://scenes/story/story_player.tscn"
 const DEV_MSG: String = "正在开发中"
 
 # 章节数据：id / 标题 / 副标题(地形·天气) / 主题色 / 是否已实现的关卡
@@ -171,7 +172,13 @@ func _on_card_clicked(c: Chapter) -> void:
 		return
 	# 已实现关卡：进入游戏前重置全局状态，保证从菜单进来的局是干净的
 	_reset_global_state()
-	MenuTheme.change_scene(c.scene_path)
+	# 教程关(index 0):先播放第一幕前置剧情,再进游戏
+	if c.index == 0:
+		MenuTheme.pending_story_id = StoryData.TUTORIAL_INTRO
+		MenuTheme.pending_story_next_scene = c.scene_path
+		MenuTheme.change_scene(STORY_PLAYER_SCENE)
+	else:
+		MenuTheme.change_scene(c.scene_path)
 
 
 ## 重置 autoload 残留状态（防止上一局的金币/天数/暂停等带进来）

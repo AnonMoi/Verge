@@ -5,6 +5,7 @@
 extends Control
 
 const MAIN_MENU_SCENE := "res://scenes/menu/main_menu.tscn"
+const STORY_PLAYER_SCENE := "res://scenes/story/story_player.tscn"
 const WAIT_TIME: float = 2.5  # 总展示时长（秒）
 
 var _elapsed: float = 0.0
@@ -69,4 +70,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _go_to_menu() -> void:
 	set_process(false)          # 防止重复触发
 	set_process_unhandled_input(false)
-	MenuTheme.change_scene(MAIN_MENU_SCENE)
+	# 首次启动:先播序章世界观;后续启动直接进主菜单
+	if not MenuTheme.prologue_watched:
+		MenuTheme.pending_story_id = StoryData.PROLOGUE
+		MenuTheme.pending_story_next_scene = MAIN_MENU_SCENE
+		MenuTheme.change_scene(STORY_PLAYER_SCENE)
+	else:
+		MenuTheme.change_scene(MAIN_MENU_SCENE)

@@ -196,6 +196,14 @@ static func show_toast(parent: Control, text: String, duration: float = 1.8) -> 
 ## 默认只解锁第一章（教程关）。后续关卡实现后可扩展为存档系统。
 static var unlocked_chapter_index: int = 0
 
+# ============ 剧情流转（简化版跨场景传参） ============
+## 序章是否已观看(首次启动后置 true,后续直接进主菜单)
+static var prologue_watched: bool = false
+## 即将播放的剧情 id(见 StoryData),由上一个场景设置
+static var pending_story_id: String = ""
+## 剧情播放完毕后跳转的目标场景路径
+static var pending_story_next_scene: String = ""
+
 
 # ============ 通用过渡：切换到下一个场景 ============
 ## 统一封装 change_scene_to_file，便于后续加转场动画。
