@@ -1,0 +1,154 @@
+{
+  "prologue": {
+    "rita_first_meeting": [
+      {"speaker": "丽塔", "text": "你……你是谁？怎么会出现在边境废墟？"},
+      {"speaker": "Kane", "text": "我……我也不知道。我记得我正在推演一个模型，然后……空间撕裂了。"},
+      {"speaker": "丽塔", "text": "空间撕裂？你是从外面来的？快跟我走，这里不安全。"},
+      {"speaker": "丽塔", "text": "我叫丽塔，是这个小镇的住民。欢迎来到环界大陆……虽然这里已经算不上什么好地方了。"}
+    ],
+    "rita_explanation": [
+      {"speaker": "丽塔", "text": "这片大陆被一层魔法屏障保护着，隔绝外面的虚空混沌。"},
+      {"speaker": "丽塔", "text": "但屏障正在慢慢崩坏……每到黑夜，魔物就会从裂隙中涌出来。"},
+      {"speaker": "丽塔", "text": "我们有昼夜循环，白天可以建造防御工事，晚上就要战斗。"},
+      {"speaker": "Kane", "text": "昼夜循环？听起来像是某种……程序？"},
+      {"speaker": "丽塔", "text": "程序？嗯……也许吧。总之，记住：白天建设，夜晚战斗，黎明结算。"}
+    ],
+    "monster_attack": [
+      {"speaker": "丽塔", "text": "不好！魔物来了！快躲起来！"},
+      {"speaker": "Kane", "text": "等等，它们为什么只攻击边境？腹地呢？"},
+      {"speaker": "丽塔", "text": "腹地……他们根本不在乎边境的死活。王室切断了所有补给。"},
+      {"speaker": "丽塔", "text": "但我们不能放弃。守住防线，就是守住希望。"},
+      {"speaker": "Kane", "text": "（内心）回归现实……还是守护这里？我已经做出了选择。"}
+    ]
+  },
+  "chapter_1": {
+    "before_battle": [
+      {"speaker": "Kane", "text": "熔核……千年前的守界英雄，如今成了灾域领主。"},
+      {"speaker": "丽塔", "text": "据说他镇守熔岩边境千年，却从未得到过腹地的支援。"},
+      {"speaker": "丽塔", "text": "绝望……足以扭曲任何英雄的心灵。"},
+      {"speaker": "Kane", "text": "但我不是来延续绝望的。我要打破这个轮回。"}
+    ],
+    "after_defeat": [
+      {"speaker": "熔核", "text": "你……和以往所有的弱者，都截然不同。"},
+      {"speaker": "熔核", "text": "寒冰……竟然能克制混沌烈焰？"},
+      {"speaker": "Kane", "text": "不是寒冰克制烈焰，是策略战胜蛮力。"},
+      {"speaker": "熔核", "text": "……也许……你真的能改变什么。"}
+    ],
+    "redemption_choice": [
+      {"speaker": "Kane", "text": "熔核，你的执念是'混沌烈焰不可战胜'。但你错了。"},
+      {"speaker": "Kane", "text": "真正不可战胜的，是放弃希望。"},
+      {"speaker": "熔核", "text": "希望……我已经遗忘太久了。"},
+      {"speaker": "Kane", "text": "那就重新拾起。和我一起守护这片大陆。"}
+    ]
+  },
+  "chapter_2": {
+    "before_battle": [
+      {"speaker": "丽塔", "text": "永冻冰原……凛渊用寒冰冻结了一切，包括希望。"},
+      {"speaker": "Kane", "text": "冻结？她认为这样就能隔绝苦难？"},
+      {"speaker": "丽塔", "text": "她曾目睹无数次轮回中，所有生灵被魔物吞噬。"},
+      {"speaker": "丽塔", "text": "也许对她来说，冰封就是唯一的'守护'方式。"}
+    ],
+    "redemption": [
+      {"speaker": "凛渊", "text": "原来……守护并非徒劳，生机真的可以延续。"},
+      {"speaker": "凛渊", "text": "我冰封这片土地，是因为我以为所有努力终将白费。"},
+      {"speaker": "Kane", "text": "但你看，我们守住了。只要有人坚持，就有希望。"},
+      {"speaker": "凛渊", "text": "……千年来，你是第一个让我相信这句话的人。"}
+    ]
+  },
+  "chapter_3": {
+    "before_battle": [
+      {"speaker": "Kane", "text": "轰霆……他想用蛮力打破轮回？"},
+      {"speaker": "丽塔", "text": "每次轮回，他都试图用雷霆之力撕碎虚空。"},
+      {"speaker": "丽塔", "text": "但每次都是同样的结局……世界毁灭，一切重启。"},
+      {"speaker": "Kane", "text": "蛮力解决不了问题。策略才是破局的关键。"}
+    ],
+    "redemption": [
+      {"speaker": "轰霆", "text": "……原来如此。我一直以为力量就是一切。"},
+      {"speaker": "轰霆", "text": "但你的布局……让我看到了另一种可能。"},
+      {"speaker": "Kane", "text": "力量只是工具，智慧才是真正的武器。"},
+      {"speaker": "轰霆", "text": "好！从今往后，我的雷霆为你所用！"}
+    ]
+  },
+  "chapter_4": {
+    "before_battle": [
+      {"speaker": "Kane", "text": "深海裂隙……这里常年无光，渊噬就藏在黑暗中。"},
+      {"speaker": "丽塔", "text": "历代守界者都无法在黑暗中找到他的踪迹。"},
+      {"speaker": "Kane", "text": "但黑暗永远无法战胜光明。"},
+      {"speaker": "Kane", "text": "我会用黎明圣光，照亮这片深渊。"}
+    ],
+    "after_battle": [
+      {"speaker": "丽塔", "text": "Kane，我在废墟中发现了一些文献……"},
+      {"speaker": "丽塔", "text": "是关于王室的……他们好像在刻意隐瞒什么。"},
+      {"speaker": "Kane", "text": "隐瞒？什么内容？"},
+      {"speaker": "丽塔", "text": "关于虚空……关于轮回……他们知道真相！"}
+    ]
+  },
+  "chapter_5": {
+    "before_battle": [
+      {"speaker": "Kane", "text": "磐石……他憎恨人类破坏屏障？"},
+      {"speaker": "丽塔", "text": "千年来，他目睹人类为了资源不断破坏屏障根基。"},
+      {"speaker": "丽塔", "text": "在他眼中，人类才是真正的威胁。"},
+      {"speaker": "Kane", "text": "那我就证明给他看：人类也能守护屏障。"}
+    ],
+    "redemption": [
+      {"speaker": "磐石", "text": "你……你真的在修复界碑？"},
+      {"speaker": "Kane", "text": "屏障是我们共同的防线。破坏它的是少数人，守护它的是所有人。"},
+      {"speaker": "磐石", "text": "千年来……第一次有人真正在意这片大地。"},
+      {"speaker": "磐石", "text": "我愿意再次成为屏障的守护者。"}
+    ]
+  },
+  "chapter_6": {
+    "before_battle": [
+      {"speaker": "Kane", "text": "最后一关了……荒芜之母。"},
+      {"speaker": "丽塔", "text": "她见证了无数次世界归零，已经放弃了一切。"},
+      {"speaker": "丽塔", "text": "她说'万物终将荒芜，生机皆是虚妄'。"},
+      {"speaker": "Kane", "text": "那我就用行动证明她错了。生机可以延续。"}
+    ],
+    "after_battle": [
+      {"speaker": "丽塔", "text": "Kane！我收到了腹地的消息！"},
+      {"speaker": "Kane", "text": "怎么了？"},
+      {"speaker": "丽塔", "text": "王室禁止任何边境人员前往王都！而且……大量物资被囤积在腹地，却不肯支援防线！"},
+      {"speaker": "丽塔", "text": "这太不正常了……好像有人在刻意让边境失守。"},
+      {"speaker": "Kane", "text": "（内心）轮回……王室……虚空……这一切都有关联。"}
+    ]
+  },
+  "chapter_7": {
+    "revelation": [
+      {"speaker": "国王", "text": "……你终于来了，Kane。"},
+      {"speaker": "Kane", "text": "国王？你……你知道我的名字？"},
+      {"speaker": "国王", "text": "当然。我一直在等你……不，是'它'一直在等你。"},
+      {"speaker": "Kane", "text": "'它'？你是说……归零？"},
+      {"speaker": "国王", "text": "哈哈哈！你果然知道！千年前守界议会的残魂，竟然真的找到了宿主！"},
+      {"speaker": "国王", "text": "没错，我早已被归零缠魂。所有不作为的国策，都是为了加速世界覆灭！"},
+      {"speaker": "国王", "text": "而你……就是归零要吞噬的终极目标！"}
+    ],
+    "final_battle": [
+      {"speaker": "丽塔", "text": "Kane！不要让他操控你！"},
+      {"speaker": "Kane", "text": "丽塔，保护好自己。我来结束这一切。"},
+      {"speaker": "Kane", "text": "归零，你的轮回游戏……到此为止了！"},
+      {"speaker": "熔核", "text": "我们与你并肩作战！"},
+      {"speaker": "凛渊", "text": "寒冰为你开路！"},
+      {"speaker": "轰霆", "text": "雷霆为你助威！"},
+      {"speaker": "渊噬", "text": "深渊为你指引！"},
+      {"speaker": "磐石", "text": "岩壁为你守护！"},
+      {"speaker": "荒芜之母", "text": "生机为你绽放！"}
+    ],
+    "ending_redemption": [
+      {"speaker": "Kane", "text": "轮回……终于结束了。"},
+      {"speaker": "丽塔", "text": "Kane……我们做到了！"},
+      {"speaker": "Kane", "text": "丽塔，边境和腹地的资源会均衡分配。"},
+      {"speaker": "Kane", "text": "这片大陆……终于可以真正地活下去了。"},
+      {"speaker": "丽塔", "text": "那你呢？你要离开吗？"},
+      {"speaker": "Kane", "text": "……我可以选择留下，或者回去。"},
+      {"speaker": "Kane", "text": "但无论选择哪条路，我都不会忘记这里。"},
+      {"speaker": "Kane", "text": "因为这里……是我第二次生命的起点。"}
+    ],
+    "ending_annihilation": [
+      {"speaker": "Kane", "text": "归零……暂时被击退了。"},
+      {"speaker": "Kane", "text": "但没有六大守界力量的加持，轮回的隐患还在。"},
+      {"speaker": "丽塔", "text": "……一切还没结束，对吗？"},
+      {"speaker": "Kane", "text": "是的。但只要我还在，就不会让这片大陆再次陷入绝望。"},
+      {"speaker": "Kane", "text": "我会继续守护这里……直到真正的和平到来。"}
+    ]
+  }
+}

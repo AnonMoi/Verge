@@ -1,0 +1,139 @@
+{
+  "prologue": {
+    "id": "prologue",
+    "title": "错位旅人・边境小镇",
+    "type": "tutorial",
+    "map": "边境小镇",
+    "story": {
+      "opening": "Kane推演轮回沙盘时空间撕裂，穿越坠落在破碎边境，脑海涌入古老守界记忆。孤身流离时被边境少女丽塔收留。",
+      "rita_introduction": "丽塔讲解大陆昼夜规则、屏障危机，提供基础资源。",
+      "turning_point": "目睹魔物夜袭小镇，腹地无任何支援，丽塔拼死保护平民。Kane放弃归乡念头，决定守护这片大陆。此时仅认为王室腐朽自私，未察觉国王被虚空操控。",
+      "narrative_design": "无大段文字，剧情对话仅战斗前后短片段；完整世界观放入图鉴「大陆典籍」，关卡掉落残缺日记、界碑铭文，玩家主动查阅解锁完整设定。"
+    },
+    "gameplay": {
+      "tutorial": "熟悉四段昼夜操作、基础防御塔搭建",
+      "side_quests": ["采集魔力露珠", "修补小镇外围界碑"],
+      "rewards": ["初级图纸"]
+    }
+  },
+  "chapter_1": {
+    "id": "chapter_1",
+    "title": "焦土征途・打破烈焰轮回",
+    "map": "熔岩焦土",
+    "lord": "magma_lord",
+    "story": {
+      "fixed_loop": "熔岩防线必然焚毁，守界者全军覆没。",
+      "player_action": "把控昼夜资源分配，建造寒冰系防御塔克制熔岩魔物，黑夜抵御熔核BOSS进攻，千年首次守住焦土边界，打破烈焰宿命。",
+      "unlock": "熔核回忆短片，揭露其千年戍边、孤军奋战的绝望过往；开启救赎支线。"
+    },
+    "gameplay": {
+      "key_strategy": "寒冰系防御塔克制熔岩魔物",
+      "map_feature": "黑夜时长翻倍"
+    }
+  },
+  "chapter_2": {
+    "id": "chapter_2",
+    "title": "冰原挽歌・融化万年执念",
+    "map": "永冻冰原",
+    "lord": "frost_lord",
+    "story": {
+      "fixed_loop": "凛渊以寒霜冻结整片边境，隔绝所有生灵，防线常年全域沦陷。",
+      "player_action": "白昼囤积日光魔力，黄昏预判冰系魔物路线，黑夜用圣光融化冰封通路，击溃凛渊。",
+      "unlock": "冰原守界往事"
+    },
+    "gameplay": {
+      "key_strategy": "日光魔力+圣光系防御塔",
+      "map_feature": "黄昏魔物自带减速",
+      "unlocked_buildings": ["减速类防御塔", "日光类防御塔"]
+    }
+  },
+  "chapter_3": {
+    "id": "chapter_3",
+    "title": "雷鸣荒野・撕碎雷霆宿命",
+    "map": "雷鸣荒原",
+    "lord": "thunder_lord",
+    "story": {
+      "fixed_loop": "轰霆痴迷蛮力，以雷霆混沌摧毁防线，妄图靠暴力打破轮回，次次惨败。",
+      "player_action": "不靠高伤炮塔，依靠减速、封锁陷阱布局，拆分雷霆魔物集群，克制轰霆狂暴攻势。",
+      "unlock": "雷霆督军过往"
+    },
+    "gameplay": {
+      "key_strategy": "减速+封锁陷阱布局",
+      "unlocked_buildings": ["连锁雷电防御塔"]
+    }
+  },
+  "chapter_4": {
+    "id": "chapter_4",
+    "title": "深渊潜航・照亮轮回黑暗",
+    "map": "深海裂隙",
+    "lord": "abyss_lord",
+    "story": {
+      "fixed_loop": "深海常年无光，渊噬依靠黑暗隐身，魔物从水下、空中双线进攻，历代守界者无法制衡。",
+      "player_action": "主动释放黎明圣光穿透深海黑暗，布置水下束缚陷阱，双线拦截魔物，击溃渊噬。",
+      "unlock": "第一篇王室异常文献，暗示王都刻意隐瞒虚空真相，埋下终章反转线索。"
+    },
+    "gameplay": {
+      "key_strategy": "黎明圣光+水下束缚陷阱",
+      "map_feature": "白昼视野受限",
+      "special_mechanic": "双线防守（水下+空中）"
+    }
+  },
+  "chapter_5": {
+    "id": "chapter_5",
+    "title": "峡谷壁垒・平息岩壁憎恨",
+    "map": "峡谷岩地",
+    "lord": "rock_lord",
+    "story": {
+      "fixed_loop": "磐石憎恨人类透支世界、损毁屏障，主动摧毁边境工事。",
+      "player_action": "白昼大量修复岩壁屏障，搭建重装阻挡城墙，抵消磐石巨像破坏能力，化解其执念。",
+      "unlock": "岩壁巨像过往"
+    },
+    "gameplay": {
+      "key_strategy": "屏障修复+重装阻挡",
+      "unlocked_buildings": ["巨型岩壁城墙"]
+    }
+  },
+  "chapter_6": {
+    "id": "chapter_6",
+    "title": "腐林新生・终结荒芜宿命",
+    "map": "腐化密林",
+    "lord": "corruption_lord",
+    "story": {
+      "fixed_loop": "荒芜之母见证无数次世界归零，认定一切生机终将腐朽，释放腐化魔物侵蚀防线。",
+      "player_action": "搭配圣光净化塔与荆棘再生塔，持续净化腐化区域，逆转林地崩坏。",
+      "key_plot": "六大地域全部平定后，丽塔带来腹地消息——王室禁止任何边境人员前往王都，大量物资囤积腹地却拒绝支援防线，轮回重复的痕迹愈发明显。",
+      "unlock": "荒芜之母过往"
+    },
+    "gameplay": {
+      "key_strategy": "圣光净化+荆棘再生",
+      "unlocked_buildings": ["荆棘再生塔"]
+    }
+  },
+  "chapter_7": {
+    "id": "chapter_7",
+    "title": "王都真相・对抗虚空傀儡",
+    "map": "中央王域",
+    "type": "final_chapter",
+    "story": {
+      "revelation": "玩家突破王室封锁，抵达中央王域，揭露核心反转：国王被虚空意念缠魂操控，所有不作为国策、轮回剧本，都是归零的阴谋。",
+      "final_battle": "双线防守，同时守护边境屏障与腹地平民，抵御王室禁军+虚空魔物混合攻势；六名已归顺领主可协同助战。"
+    },
+    "gameplay": {
+      "special_mechanic": "双线防守",
+      "allies": "六名已归顺领主协同助战",
+      "victory_condition": "击败虚空载体国王"
+    },
+    "endings": {
+      "redemption": {
+        "name": "救赎结局",
+        "condition": "全部领主化解执念归顺，丽塔存活",
+        "description": "成功斩杀虚空载体国王，Kane动用主神时间残魂之力摧毁轮回牢笼，大陆跳出无限循环；边境与腹地资源均衡分配，丽塔与平民安稳生活。Kane可选择留在大陆守护，或开启通道回归现实。"
+      },
+      "annihilation": {
+        "name": "寂灭结局",
+        "condition": "领主全部战死",
+        "description": "缺少六大守界力量加持，仅暂时击退归零，大陆依旧残留轮回隐患，边境战乱无法彻底根除，世界陷入长久微弱动荡。"
+      }
+    }
+  }
+}
