@@ -1,20 +1,282 @@
 [gd_scene format=3 uid="uid://ch38ly7cpuj3d"]
 
-[ext_resource type="PackedScene" path="res://scenes/main_game/core.tscn" id="1_core_tscn"]
+[ext_resource type="PackedScene" uid="uid://bcr0fxdkoxs7r" path="res://scenes/main_game/core.tscn" id="1_core_tscn"]
+[ext_resource type="Script" uid="uid://b3t65g0plx03x" path="res://scripts/ui/background_controller.gd" id="2_bg_controller_script"]
 [ext_resource type="Texture2D" uid="uid://d4km2gmyhnohs" path="res://character_sources/Battleground1.png" id="2_fetp2"]
-[ext_resource type="Script" uid="uid://doi5yp265jsxw" path="res://scripts/game_manager/spawner.gd" id="2_spawner_script"]
+[ext_resource type="Texture2D" uid="uid://c4tfw3tjqoj6p" path="res://character_sources/PNG/Battleground1/Pale/Battleground1.png" id="2_pale_bg"]
+[ext_resource type="Script" uid="uid://dmhsm4tj8ynfq" path="res://scripts/game_manager/spawner.gd" id="2_spawner_script"]
 [ext_resource type="Script" uid="uid://4pcjdbph64ou" path="res://scripts/ui/hud.gd" id="3_hud_script"]
 [ext_resource type="Script" uid="uid://caxaanbbm1wrn" path="res://scripts/ui/deploy_panel.gd" id="4_deploy_script"]
 [ext_resource type="Script" uid="uid://dcuek3jo0rn5n" path="res://scripts/effects/dawn_effect.gd" id="5_dawn_script"]
 [ext_resource type="Script" uid="uid://dl7aea83y282u" path="res://scripts/building/deploy_slot.gd" id="6_deploy_slot_script"]
 [ext_resource type="Script" uid="uid://4yi8bcsu1pow" path="res://scripts/game_manager/game_scene_controller.gd" id="7_controller_script"]
-[ext_resource type="Script" uid="uid://de685qftwmyfa" path="res://scripts/ui/game_over_panel.gd" id="8_gameover_script"]
-[ext_resource type="Script" uid="uid://dxq5n8bd47ayr" path="res://scripts/ui/pause_menu.gd" id="9_pause_menu_script"]
-[ext_resource type="Script" uid="uid://bqleum3oboq7t" path="res://scripts/ui/victory_panel.gd" id="10_victory_script"]
+[ext_resource type="Texture2D" uid="uid://dc2iui7nrjkt1" path="res://character_sources/PNG_Tiled/Road2.png" id="7_s87mg"]
+[ext_resource type="Script" uid="uid://h8vvubf4qsnu" path="res://scripts/ui/game_over_panel.gd" id="8_gameover_script"]
+[ext_resource type="Script" uid="uid://de8tupdeyocsm" path="res://scripts/ui/pause_menu.gd" id="9_pause_menu_script"]
+[ext_resource type="Script" uid="uid://dicng5yxg4bgf" path="res://scripts/ui/victory_panel.gd" id="10_victory_script"]
+[ext_resource type="Script" uid="uid://brdbvua7bg4tf" path="res://scripts/path/path_manager.gd" id="11_path_mgr_script"]
+[ext_resource type="PackedScene" uid="uid://u7rtu5q6pump" path="res://scenes/main_game/path_tile.tscn" id="12_path_tile"]
+[ext_resource type="Texture2D" uid="uid://dbpuxrvya053d" path="res://character_sources/rika_8d498b99.png" id="13_ebk6p"]
+[ext_resource type="Texture2D" uid="uid://cpe4qx4o5gmi3" path="res://character_sources/rika_79b003e1.png" id="14_r8wn4"]
+[ext_resource type="Texture2D" uid="uid://cxypnu3y5qiwk" path="res://character_sources/rika_19db2e01.png" id="15_kwr1i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s87mg"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vmwyb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s87mg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l774p"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_duivd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l774p")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8wn4"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qy3ra"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8wn4")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwr1i"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fgw6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwr1i")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebk6p"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fxa2l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebk6p")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxa2l"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_feobv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxa2l")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgumw"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uddg2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgumw")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_feobv"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qspar"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_feobv")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxjft"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7mboc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxjft")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uddg2"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fm6xj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uddg2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qspar"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sjufv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qspar")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mboc"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fy5ht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mboc")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fm6xj"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ucrkv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fm6xj")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjufv"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rdfwi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjufv")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy5ht"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kgumw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy5ht")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucrkv"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_poh60"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucrkv")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdfwi"]
+atlas = ExtResource("7_s87mg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wcew3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdfwi")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectShape2D_slot"]
 size = Vector2(64, 64)
-
 
 [sub_resource type="StyleBoxFlat" id="PauseBtnStyle_normal"]
 content_margin_left = 10.0
@@ -71,127 +333,102 @@ script = ExtResource("7_controller_script")
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("2_fetp2")
+script = ExtResource("2_bg_controller_script")
+day_bg = ExtResource("2_fetp2")
+night_bg = ExtResource("2_pale_bg")
 
 [node name="PathVisual" type="Node2D" parent="." unique_id=857357933]
+script = ExtResource("11_path_mgr_script")
 
-[node name="PathH1_G0" type="ColorRect" parent="PathVisual" unique_id=388741735]
-offset_left = 2.0
-offset_top = 290.0
-offset_right = 62.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_0_h" parent="PathVisual" unique_id=987133062 instance=ExtResource("12_path_tile")]
+position = Vector2(32, 320)
+tile_animation = SubResource("SpriteFrames_vmwyb")
+grid_pos = Vector2i(0, 5)
 
-[node name="PathH1_G1" type="ColorRect" parent="PathVisual" unique_id=289167735]
-offset_left = 66.0
-offset_top = 290.0
-offset_right = 126.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_1_h" parent="PathVisual" unique_id=555177377 instance=ExtResource("12_path_tile")]
+position = Vector2(96, 320)
+tile_animation = SubResource("SpriteFrames_duivd")
+grid_pos = Vector2i(1, 5)
 
-[node name="PathH1_G2" type="ColorRect" parent="PathVisual" unique_id=1359177829]
-offset_left = 130.0
-offset_top = 290.0
-offset_right = 190.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_2_h" parent="PathVisual" unique_id=1035375020 instance=ExtResource("12_path_tile")]
+position = Vector2(160, 320)
+tile_animation = SubResource("SpriteFrames_qy3ra")
+grid_pos = Vector2i(2, 5)
 
-[node name="PathH1_G3" type="ColorRect" parent="PathVisual" unique_id=1578894935]
-offset_left = 194.0
-offset_top = 290.0
-offset_right = 254.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_3_h" parent="PathVisual" unique_id=1514873016 instance=ExtResource("12_path_tile")]
+position = Vector2(224, 320)
+tile_animation = SubResource("SpriteFrames_fgw6b")
+grid_pos = Vector2i(3, 5)
 
-[node name="PathH1_G4" type="ColorRect" parent="PathVisual" unique_id=35120626]
-offset_left = 258.0
-offset_top = 290.0
-offset_right = 318.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_4_h" parent="PathVisual" unique_id=392284100 instance=ExtResource("12_path_tile")]
+position = Vector2(288, 320)
+tile_animation = SubResource("SpriteFrames_fxa2l")
+grid_pos = Vector2i(4, 5)
 
-[node name="PathH1_G5" type="ColorRect" parent="PathVisual" unique_id=982980690]
-offset_left = 322.0
-offset_top = 290.0
-offset_right = 382.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_5_h" parent="PathVisual" unique_id=666288703 instance=ExtResource("12_path_tile")]
+position = Vector2(352, 320)
+tile_animation = SubResource("SpriteFrames_feobv")
+grid_pos = Vector2i(5, 5)
 
-[node name="PathCorner1" type="ColorRect" parent="PathVisual" unique_id=774089531]
-offset_left = 386.0
-offset_top = 290.0
-offset_right = 446.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_6_cornerDown" parent="PathVisual" unique_id=939600518 instance=ExtResource("12_path_tile")]
+position = Vector2(416, 320)
+tile_direction = "corner_down"
+tile_animation = SubResource("SpriteFrames_uddg2")
+grid_pos = Vector2i(6, 5)
 
-[node name="PathV1_G1" type="ColorRect" parent="PathVisual" unique_id=1295190391]
-offset_left = 386.0
-offset_top = 354.0
-offset_right = 446.0
-offset_bottom = 414.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_7_v" parent="PathVisual" unique_id=991008766 instance=ExtResource("12_path_tile")]
+position = Vector2(416, 384)
+tile_direction = "v"
+tile_animation = SubResource("SpriteFrames_qspar")
+grid_pos = Vector2i(6, 6)
 
-[node name="PathCorner2" type="ColorRect" parent="PathVisual" unique_id=2131594311]
-offset_left = 386.0
-offset_top = 418.0
-offset_right = 446.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_8_cornerRight" parent="PathVisual" unique_id=760635991 instance=ExtResource("12_path_tile")]
+position = Vector2(416, 448)
+tile_direction = "corner_right"
+tile_animation = SubResource("SpriteFrames_7mboc")
+grid_pos = Vector2i(6, 7)
 
-[node name="PathH2_G0" type="ColorRect" parent="PathVisual" unique_id=1984905296]
-offset_left = 450.0
-offset_top = 418.0
-offset_right = 510.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_9_h" parent="PathVisual" unique_id=667735627 instance=ExtResource("12_path_tile")]
+position = Vector2(480, 448)
+tile_animation = SubResource("SpriteFrames_fm6xj")
+grid_pos = Vector2i(7, 7)
 
-[node name="PathH2_G1" type="ColorRect" parent="PathVisual" unique_id=2027946965]
-offset_left = 514.0
-offset_top = 418.0
-offset_right = 574.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_10_h" parent="PathVisual" unique_id=1052445153 instance=ExtResource("12_path_tile")]
+position = Vector2(544, 448)
+tile_animation = SubResource("SpriteFrames_sjufv")
+grid_pos = Vector2i(8, 7)
 
-[node name="PathH2_G2" type="ColorRect" parent="PathVisual" unique_id=92288108]
-offset_left = 578.0
-offset_top = 418.0
-offset_right = 638.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_11_h" parent="PathVisual" unique_id=655325579 instance=ExtResource("12_path_tile")]
+position = Vector2(608, 448)
+tile_animation = SubResource("SpriteFrames_fy5ht")
+grid_pos = Vector2i(9, 7)
 
-[node name="PathH2_G3" type="ColorRect" parent="PathVisual" unique_id=1753496020]
-offset_left = 642.0
-offset_top = 418.0
-offset_right = 702.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_12_h" parent="PathVisual" unique_id=1642479013 instance=ExtResource("12_path_tile")]
+position = Vector2(672, 448)
+tile_animation = SubResource("SpriteFrames_ucrkv")
+grid_pos = Vector2i(10, 7)
 
-[node name="PathH2_G4" type="ColorRect" parent="PathVisual" unique_id=970973922]
-offset_left = 706.0
-offset_top = 418.0
-offset_right = 766.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_13_h" parent="PathVisual" unique_id=1336017866 instance=ExtResource("12_path_tile")]
+position = Vector2(736, 448)
+tile_animation = SubResource("SpriteFrames_rdfwi")
+grid_pos = Vector2i(11, 7)
 
-[node name="PathCorner3" type="ColorRect" parent="PathVisual" unique_id=2036756910]
-offset_left = 770.0
-offset_top = 418.0
-offset_right = 830.0
-offset_bottom = 478.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_14_cornerUp" parent="PathVisual" unique_id=928927145 instance=ExtResource("12_path_tile")]
+position = Vector2(800, 448)
+tile_direction = "corner_up"
+tile_animation = SubResource("SpriteFrames_kgumw")
+grid_pos = Vector2i(12, 7)
 
-[node name="PathV2_G1" type="ColorRect" parent="PathVisual" unique_id=1788246448]
-offset_left = 770.0
-offset_top = 354.0
-offset_right = 830.0
-offset_bottom = 414.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_15_v" parent="PathVisual" unique_id=885478893 instance=ExtResource("12_path_tile")]
+position = Vector2(800, 384)
+tile_direction = "v"
+tile_animation = SubResource("SpriteFrames_poh60")
+grid_pos = Vector2i(12, 6)
 
-[node name="PathCoreCell" type="ColorRect" parent="PathVisual" unique_id=1249456619]
-offset_left = 770.0
-offset_top = 290.0
-offset_right = 830.0
-offset_bottom = 350.0
-color = Color(0.38, 0.38, 0.44, 1)
+[node name="PathTile_16_h" parent="PathVisual" unique_id=1216135287 instance=ExtResource("12_path_tile")]
+position = Vector2(800, 320)
+tile_animation = SubResource("SpriteFrames_wcew3")
+grid_pos = Vector2i(12, 5)
 
 [node name="Obstructions" type="Node2D" parent="." unique_id=1995564444]
 
@@ -250,6 +487,7 @@ script = ExtResource("6_deploy_slot_script")
 slot_index = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeploySlots/Slot6" unique_id=920179512]
+position = Vector2(0, 1)
 shape = SubResource("RectShape2D_slot")
 
 [node name="Slot7" type="Area2D" parent="DeploySlots" unique_id=1890376629]
@@ -378,7 +616,7 @@ color = Color(0.4, 0.5, 0.7, 0.35)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeploySlots/Slot18" unique_id=490714744]
 shape = SubResource("RectShape2D_slot")
 
-[node name="Core" parent="." instance=ExtResource("1_core_tscn")]
+[node name="Core" parent="." unique_id=1776332747 instance=ExtResource("1_core_tscn")]
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=443580417]
 script = ExtResource("2_spawner_script")
@@ -465,38 +703,41 @@ layer = 50
 script = ExtResource("4_deploy_script")
 
 [node name="PanelBg" type="ColorRect" parent="DeployPanel" unique_id=863067050]
-offset_top = 640.0
-offset_right = 1280.0
-offset_bottom = 720.0
+offset_top = 615.0
+offset_right = 2208.0
+offset_bottom = 753.0
 mouse_filter = 1
 color = Color(0.08, 0.08, 0.12, 0.94)
 
 [node name="PioneerBtn" type="Button" parent="DeployPanel" unique_id=2014466112]
-offset_left = 30.0
-offset_top = 650.0
-offset_right = 150.0
-offset_bottom = 712.0
-text = "先锋 (10)"
+offset_left = 3.0
+offset_top = 617.0
+offset_right = 212.00002
+offset_bottom = 753.0
+text = " 先锋 (10)"
+icon = ExtResource("13_ebk6p")
 
 [node name="DefenderBtn" type="Button" parent="DeployPanel" unique_id=1003401343]
-offset_left = 170.0
-offset_top = 650.0
-offset_right = 290.0
-offset_bottom = 712.0
+offset_left = 273.0
+offset_top = 618.0
+offset_right = 478.0
+offset_bottom = 754.0
 text = "重装 (28)"
+icon = ExtResource("14_r8wn4")
 
 [node name="SniperBtn" type="Button" parent="DeployPanel" unique_id=735483288]
-offset_left = 310.0
-offset_top = 650.0
-offset_right = 430.0
-offset_bottom = 712.0
+offset_left = 531.0
+offset_top = 619.0
+offset_right = 736.0
+offset_bottom = 755.0
 text = "狙击 (25)"
+icon = ExtResource("15_kwr1i")
 
 [node name="MineBtn" type="Button" parent="DeployPanel" unique_id=1098447458]
-offset_left = 450.0
-offset_top = 650.0
-offset_right = 570.0
-offset_bottom = 712.0
+offset_left = 799.0
+offset_top = 659.0
+offset_right = 919.0
+offset_bottom = 721.0
 text = "金矿 (50)"
 
 [node name="SelectedIndicator" type="ColorRect" parent="DeployPanel" unique_id=2053676742]

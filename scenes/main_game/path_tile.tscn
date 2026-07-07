@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://u7rtu5q6pump"]
+
+[ext_resource type="Script" uid="uid://24lgxsb88wlf" path="res://scripts/path/path_tile.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dc2iui7nrjkt1" path="res://character_sources/PNG_Tiled/Road2.png" id="2_vmwyb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygbks"]
+atlas = ExtResource("2_vmwyb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pbyk0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygbks")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="PathTile" type="Node2D" unique_id=1360431402]
+script = ExtResource("1_script")
+
+[node name="Anim" type="AnimatedSprite2D" parent="." unique_id=524332771]
+position = Vector2(9.536743e-07, -9.536743e-07)
+scale = Vector2(2.0625, 2.0625)
+sprite_frames = SubResource("SpriteFrames_pbyk0")
