@@ -46,9 +46,10 @@ func _connect_dawn_effect() -> void:
 
 ## 初始化经济（确保初始金币正确）
 func _init_economy() -> void:
+	# 2026-07-01: PVZ 式开局 50 金（仅够放 1 个金矿）
 	if Economy.gold == 0:
-		Economy.gold = Economy.starting_gold
-	Economy.broadcast_gold_changed(0)
+		Economy.gold = 50
+	Economy.broadcast_gold_changed(0)  # 触发一次刷新
 
 
 ## 核心被摧毁 → 游戏结束

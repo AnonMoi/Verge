@@ -188,8 +188,7 @@ func try_deploy(character_scene: PackedScene, cost: int, type: String) -> bool:
 	GameManager.total_deployed += 1
 
 	# 发送信号
-	var char_id := character.get("char_id", "")
-	SignalBus.character_deployed.emit(char_id)
+	SignalBus.character_deployed.emit(str(slot_index), Vector2i(int(position.x), int(position.y)))
 
 	return true
 
@@ -257,7 +256,6 @@ func _try_place_mine() -> void:
 	deployed_character = mine
 	# 统计
 	GameManager.total_deployed += 1
-	SignalBus.mine_placed.emit()
 	print("[DeploySlot] 金矿建造成功! 费用:%d (当前: %d/%d)" % [MINE_COST, _count_existing_mines(), 2])
 
 

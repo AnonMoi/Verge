@@ -51,34 +51,18 @@ func _trigger_test_game_over() -> void:
 	trigger_game_over()
 	SignalBus.game_over.emit()
 
-var level_chapter_map: Dictionary = {
-	"tutorial": "chapter_0",
-	"main_game": "chapter_0",
-	"level_1": "chapter_1",
-	"level_2": "chapter_2",
-	"level_3": "chapter_3",
-	"level_4": "chapter_4",
-	"level_5": "chapter_5",
-	"level_6": "chapter_6",
-	"level_7": "chapter_7"
-}
-
 func start_level(level_name: String) -> void:
 	current_level = level_name
 	current_day = 1
 	is_game_over = false
 	is_game_won = false
 	is_paused = false
+	# 重置统计
 	level_start_time = Time.get_ticks_msec() / 1000.0
 	total_gold_earned = 0
 	total_deployed = 0
 	total_kills = 0
 	print("[GameManager] 开始关卡: ", level_name)
-	
-	_trigger_chapter_opening(level_name)
-	
-	SignalBus.game_started.emit()
-	TutorialManager.reset()
 
 func set_paused(paused: bool) -> void:
 	is_paused = paused
@@ -104,15 +88,3 @@ func next_day() -> void:
 	print("[GameManager] 进入第 %d 天" % current_day)
 	# 发送天数变化信号（HUD 等模块监听）
 	SignalBus.day_completed.emit(current_day)
-
-func _trigger_chapter_opening(level_name: String) -> void:
-	var chapter_id := level_chapter_map.get(level_name, "")
-	print("[GameManager] 查找章节映射: level=%s, chapter=%s" % [level_name, chapter_id])
-	if chapter_id == "":
-		print("[GameManager] ❌ 未找到章节映射: ", level_name)
-		return
-	if StoryManager and StoryManager.has_method("trigger_chapter_opening"):
-		print("[GameManager] ✅ 触发章节开场: ", chapter_id)
-		StoryManager.trigger_chapter_opening(chapter_id)
-	else:
-		print("[GameManager] ❌ StoryManager 不存在或无 trigger_chapter_opening 方法")
