@@ -11,13 +11,22 @@ var hp: float = 0.0                        # 当前生命值（在 _ready 中初
 @export var speed: float = 80.0            # 移动速度（像素/秒）
 @export var core_damage: float = 15.0      # 撞到核心时的伤害值
 @export var enemy_type: String = "chaos_grunt"  # 敌人类型标识
+@export var block_attack_damage: float = 10.0   # 被阻挡时对阻挡者造成的伤害
+@export var block_attack_cooldown: float = 3.0  # 被阻挡时攻击间隔
 var is_dead: bool = false                  # 是否已死亡
+
+# 阻挡状态
+var is_blocked: bool = false
+var blocked_by: Node2D = null
+var blocked_position: Vector2 = Vector2.ZERO
+var block_slot_index: int = 0
+var block_attack_timer: float = 0.0
 
 # 各敌人类型默认配置（与 enemies.json 保持一致）
 const DEFAULT_STATS := {
-	Constants.ENEMY_GRUNT:  {"max_hp": 100.0, "speed": 80.0,  "core_damage": 15.0},
-	Constants.ENEMY_GHOST:  {"max_hp": 70.0,  "speed": 144.0, "core_damage": 12.0},
-	Constants.ENEMY_ELITE:  {"max_hp": 500.0, "speed": 56.0,  "core_damage": 35.0},
+	Constants.ENEMY_GRUNT:  {"max_hp": 100.0, "speed": 80.0,  "core_damage": 15.0, "block_attack_damage": 10.0},
+	Constants.ENEMY_GHOST:  {"max_hp": 70.0,  "speed": 144.0, "core_damage": 12.0, "block_attack_damage": 8.0},
+	Constants.ENEMY_ELITE:  {"max_hp": 500.0, "speed": 56.0,  "core_damage": 35.0, "block_attack_damage": 35.0},
 }
 
 # 路径点数组（世界坐标，像素）
@@ -44,6 +53,7 @@ func _ready() -> void:
 		max_hp = stats.max_hp
 		speed = stats.speed
 		core_damage = stats.core_damage
+		block_attack_damage = stats.block_attack_damage
 	hp = max_hp  # 初始化当前生命
 	# 从 PathManager 动态获取路径点（兼容旧版：如果 PathManager 未初始化则 fallback 硬编码）
 	path_points = _load_path_points()
@@ -97,6 +107,10 @@ func _process(delta: float) -> void:
 	if has_reached_core or is_dead:
 		return
 
+	if is_blocked:
+		_process_blocked(delta)
+		return
+
 	if current_path_index >= path_points.size():
 		# 已到达最后一个路径点 → 对核心造成伤害
 		_reach_core()
@@ -131,6 +145,103 @@ func _process(delta: float) -> void:
 				break
 		var velocity := direction.normalized() * effective_speed
 		position += velocity * delta
+
+
+# ---------- 阻挡 ----------
+func can_be_blocked() -> bool:
+	return not is_dead and not has_reached_core and not is_blocked
+
+
+func set_blocked(blocker: Node2D, slot_index: int = 0) -> bool:
+	if not can_be_blocked():
+		return false
+	if not is_instance_valid(blocker):
+		return false
+	is_blocked = true
+	blocked_by = blocker
+	block_slot_index = slot_index
+	blocked_position = _get_block_queue_position(blocker, slot_index)
+	block_attack_timer = block_attack_cooldown
+	velocity = Vector2.ZERO
+	print("[EnemyMovement] 敌人(%s)被 %s 阻挡 slot=%d" % [enemy_type, blocker.name, slot_index])
+	return true
+
+
+func set_block_slot_index(slot_index: int) -> void:
+	block_slot_index = slot_index
+	if is_blocked and blocked_by and is_instance_valid(blocked_by):
+		blocked_position = _get_block_queue_position(blocked_by, block_slot_index)
+
+
+func release_block(blocker: Node2D = null) -> void:
+	if blocker and blocked_by != blocker:
+		return
+	if blocked_by and is_instance_valid(blocked_by) and blocked_by.has_method("release_blocked_enemy"):
+		blocked_by.release_blocked_enemy(self)
+	is_blocked = false
+	blocked_by = null
+	blocked_position = Vector2.ZERO
+	block_slot_index = 0
+	block_attack_timer = 0.0
+
+
+func _process_blocked(delta: float) -> void:
+	velocity = Vector2.ZERO
+	if not blocked_by or not is_instance_valid(blocked_by):
+		release_block()
+		return
+	if "is_dead" in blocked_by and blocked_by.get("is_dead") == true:
+		release_block()
+		return
+	blocked_position = _get_block_queue_position(blocked_by, block_slot_index)
+	global_position = global_position.lerp(blocked_position, minf(1.0, 12.0 * delta))
+	block_attack_timer -= delta
+	if block_attack_timer <= 0.0:
+		_attack_blocker()
+		block_attack_timer = block_attack_cooldown
+
+
+func _attack_blocker() -> void:
+	if not blocked_by or not is_instance_valid(blocked_by):
+		release_block()
+		return
+	if blocked_by.has_method("take_damage"):
+		print("[EnemyMovement] 敌人(%s)攻击阻挡者 %s，造成 %.0f 伤害" % [enemy_type, blocked_by.name, block_attack_damage])
+		blocked_by.take_damage(block_attack_damage)
+	if anim_controller and anim_controller.has_method("play_attack"):
+		anim_controller.play_attack()
+
+
+func _release_from_blocker() -> void:
+	if blocked_by and is_instance_valid(blocked_by) and blocked_by.has_method("release_blocked_enemy"):
+		blocked_by.release_blocked_enemy(self)
+	blocked_by = null
+	is_blocked = false
+	blocked_position = Vector2.ZERO
+	block_slot_index = 0
+	block_attack_timer = 0.0
+
+
+func _get_block_queue_position(blocker: Node2D, slot_index: int) -> Vector2:
+	var path_dir := _get_current_path_direction()
+	var queue_dir := -path_dir
+	var front_gap := 26.0
+	var spacing := 22.0
+	return blocker.global_position + queue_dir * (front_gap + spacing * float(slot_index))
+
+
+func _get_current_path_direction() -> Vector2:
+	if current_path_index > 0 and current_path_index < path_points.size():
+		var from_point := path_points[current_path_index - 1]
+		var to_point := path_points[current_path_index]
+		var dir := to_point - from_point
+		if dir.length() > 0.01:
+			return dir.normalized()
+	if current_path_index < path_points.size():
+		var dir_to_target := path_points[current_path_index] - position
+		if dir_to_target.length() > 0.01:
+			return dir_to_target.normalized()
+	return Vector2.RIGHT
 
 
 ## 获取前方（同路径段）最近的另一个敌人
@@ -189,6 +300,8 @@ func _core_attack_execute() -> void:
 	# 发送敌人到达核心信号
 	SignalBus.enemy_reached_core.emit(enemy_type)
 
+	_release_from_blocker()
+
 	# 敌人到核心后销毁（策划书：敌人被阻挡或到核心都消失）
 	queue_free()
 
@@ -219,6 +332,7 @@ func _die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	_release_from_blocker()
 
 	print("[EnemyMovement] 敌人(%s)被击杀!" % enemy_type)
 

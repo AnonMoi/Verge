@@ -98,6 +98,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 func _on_clicked() -> void:
 	if is_actually_occupied():
+		_show_recall_options()
 		return
 	# 防止 input_event 和 _input 兜底同时触发一次点击两次
 	_click_token = _click_token + 1
@@ -114,20 +115,25 @@ func _on_clicked() -> void:
 
 # 全局点击兜底（Area2D input_event 可能被 CanvasLayer 拦截）
 func _input(event: InputEvent) -> void:
-	if is_actually_occupied():
-		return
 	if not event is InputEventMouseButton:
 		return
 	var mb := event as InputEventMouseButton
-	if not mb.pressed or mb.button_index != MOUSE_BUTTON_LEFT:
+	if not mb.pressed:
 		return
 	# 检查点击是否在这个部署位的区域内
 	var local_pos := to_local(mb.global_position)
 	var shape_rect := Rect2(-32, -32, 64, 64)
-	if shape_rect.has_point(local_pos):
-		print("[DeploySlot] _input 点击命中! 位%d local=%s" % [slot_index, local_pos])
-		_on_clicked()
+	if not shape_rect.has_point(local_pos):
+		return
+	if mb.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if is_actually_occupied():
+		_show_recall_options()
 		get_viewport().set_input_as_handled()
+		return
+	print("[DeploySlot] _input 点击命中! 位%d local=%s" % [slot_index, local_pos])
+	_on_clicked()
+	get_viewport().set_input_as_handled()
 
 
 # ---------- 鼠标悬停 ----------
@@ -202,8 +208,10 @@ func recall_character() -> void:
 	Economy.add_gold(refund)
 	Economy.broadcast_gold_changed(refund)
 
-	# 移除角色
+	# 移除角色前先释放被阻挡敌人
 	if is_instance_valid(deployed_character):
+		if deployed_character.has_method("release_all_blocked_enemies"):
+			deployed_character.release_all_blocked_enemies()
 		deployed_character.queue_free()
 
 	deployed_character = null
@@ -211,6 +219,19 @@ func recall_character() -> void:
 
 	SignalBus.character_recalled.emit("")
 	print("[DeploySlot] 位%d角色撤回, 返还%d金" % [slot_index, refund])
+
+
+
+func _show_recall_options() -> void:
+	if not is_actually_occupied():
+		return
+	if not deployed_character or not is_instance_valid(deployed_character):
+		return
+	if not deployed_character.has_method("release_all_blocked_enemies"):
+		return
+	var panel := _get_deploy_panel()
+	if panel and panel.has_method("on_occupied_slot_clicked"):
+		panel.on_occupied_slot_clicked(self, deployed_character)
 
 
 # ---------- 视觉更新 ----------

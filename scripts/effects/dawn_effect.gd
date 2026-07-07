@@ -116,7 +116,9 @@ func _dissolve_enemies() -> void:
 	for enemy in enemies:
 		if not is_instance_valid(enemy):
 			continue
-		# 停止敌人移动
+		# 停止敌人移动，并先解除阻挡关系
+		if enemy.has_method("release_block"):
+			enemy.release_block()
 		if "is_dead" in enemy:
 			enemy.is_dead = true
 		if "has_reached_core" in enemy:

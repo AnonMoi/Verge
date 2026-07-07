@@ -21,6 +21,7 @@ var current_hp: float = 150.0                    # 当前 HP（_ready 中设为 
 var cooldown_timer: float = 0.0                   # 攻击冷却计时器
 var current_target: Node2D = null                 # 当前攻击目标
 var is_dead: bool = false                         # 是否死亡
+var blocked_enemies: Array[Node2D] = []           # 当前被该角色阻挡的敌人
 
 # 节点引用
 @onready var visual: ColorRect = _find_node("Visual") as ColorRect  # 视觉方块（部分角色可能没有）
@@ -55,6 +56,9 @@ func _ready() -> void:
 
 	# 连接攻击动画控制器信号
 	_setup_attack_animation_controller()
+
+	# 初始化阻挡检测
+	_setup_blocking()
 
 	# 部署像素光环特效（角色出场增强效果）
 	EffectsManager.spawn_deploy_effect(global_position)
@@ -126,9 +130,96 @@ func _get_range_color() -> Color:
 			return Color(1, 1, 0.4, 0.3)
 
 
+# ---------- 阻挡系统 ----------
+func _setup_blocking() -> void:
+	if is_ranged or block_count <= 0:
+		return
+	if not attack_area:
+		return
+	if not attack_area.body_entered.is_connected(_on_block_area_body_entered):
+		attack_area.body_entered.connect(_on_block_area_body_entered)
+
+
+func _on_block_area_body_entered(body: Node2D) -> void:
+	_try_block_enemy(body)
+
+
+func _try_block_nearby_enemies() -> void:
+	if is_ranged or block_count <= 0 or is_dead:
+		return
+	if blocked_enemies.size() >= block_count:
+		return
+	var enemies_container := _get_enemies_container()
+	if not enemies_container:
+		return
+	var block_radius := maxf(range_cells * Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE * 0.75)
+	for child in enemies_container.get_children():
+		if blocked_enemies.size() >= block_count:
+			return
+		if not (child is Node2D):
+			continue
+		var enemy := child as Node2D
+		if global_position.distance_to(enemy.global_position) <= block_radius:
+			_try_block_enemy(enemy)
+
+
+func _try_block_enemy(enemy: Node2D) -> void:
+	if not _can_block_enemy(enemy):
+		return
+	var slot_index := blocked_enemies.size()
+	if enemy.set_blocked(self, slot_index):
+		blocked_enemies.append(enemy)
+		_update_block_queue_slots()
+		print("[CharacterBase] %s 阻挡敌人 %s (%d/%d)" % [char_name, enemy.name, blocked_enemies.size(), block_count])
+
+
+func _can_block_enemy(enemy: Node2D) -> bool:
+	if is_dead or is_ranged or block_count <= 0:
+		return false
+	if not is_instance_valid(enemy):
+		return false
+	if blocked_enemies.has(enemy):
+		return false
+	if blocked_enemies.size() >= block_count:
+		return false
+	if not enemy.has_method("can_be_blocked") or not enemy.has_method("set_blocked"):
+		return false
+	return enemy.can_be_blocked()
+
+
+func release_blocked_enemy(enemy: Node2D) -> void:
+	blocked_enemies.erase(enemy)
+	_update_block_queue_slots()
+
+
+func _update_block_queue_slots() -> void:
+	for i in range(blocked_enemies.size()):
+		var enemy := blocked_enemies[i]
+		if is_instance_valid(enemy) and enemy.has_method("set_block_slot_index"):
+			enemy.set_block_slot_index(i)
+
+
+func release_all_blocked_enemies() -> void:
+	for enemy in blocked_enemies.duplicate():
+		if is_instance_valid(enemy) and enemy.has_method("release_block"):
+			enemy.release_block(self)
+	blocked_enemies.clear()
+
+
+func _cleanup_invalid_blocked_enemies() -> void:
+	for enemy in blocked_enemies.duplicate():
+		if not is_instance_valid(enemy):
+			blocked_enemies.erase(enemy)
+		elif "is_dead" in enemy and enemy.get("is_dead") == true:
+			blocked_enemies.erase(enemy)
+
+
 func _process(delta: float) -> void:
 	if is_dead:
 		return
+
+	_cleanup_invalid_blocked_enemies()
+	_try_block_nearby_enemies()
 
 	# 攻击冷却倒计时
 	if cooldown_timer > 0.0:
@@ -293,6 +384,7 @@ func _die() -> void:
 	if is_dead:
 		return  # 防止同帧多敌命中导致重复 _die
 	is_dead = true
+	release_all_blocked_enemies()
 	print("[CharacterBase] %s(%s)阵亡!" % [char_name, char_id])
 
 	# 发送死亡信号
