@@ -204,7 +204,7 @@ func _perform_attack() -> void:
 func _play_attack_sfx() -> void:
 	match char_id:
 		Constants.CHAR_PIONEER:
-			AudioManager.play_sfx("pioneer_attack", 1.0)
+			AudioManager.play_sfx("pioneer_attack", 1.8)
 		Constants.CHAR_DEFENDER:
 			AudioManager.play_sfx("defender_attack", 1.0)
 		Constants.CHAR_SNIPER:

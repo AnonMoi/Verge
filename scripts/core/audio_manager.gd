@@ -25,7 +25,7 @@ const SFX_TRACKS := {
 }
 
 # ============ 音量 ============
-var music_volume: float = 0.3
+var music_volume: float = 0.22
 var sfx_volume: float = 1.0
 
 # ============ BGM 播放器（双播放器交叉淡入淡出）============
@@ -145,8 +145,22 @@ func _load(path: String) -> AudioStream:
 		return null
 	var s := load(path) as AudioStream
 	if s:
+		# BGM 自动设置循环播放（白天/夜晚等长时段音乐不中断）
+		_set_loop(s)
 		_cache[path] = s
 	return s
+
+
+## 按音频格式设置循环播放
+func _set_loop(stream: AudioStream) -> void:
+	if stream is AudioStreamWAV:
+		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+		(stream as AudioStreamWAV).loop_begin = 0
+		(stream as AudioStreamWAV).loop_end = (stream as AudioStreamWAV).data.size()
+	elif stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+	elif stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = true
 
 
 static func _vol(v: float) -> float:

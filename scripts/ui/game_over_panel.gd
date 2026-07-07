@@ -273,6 +273,8 @@ func _on_return_chapters() -> void:
 func _do_change_scene(path: String) -> void:
 	Engine.time_scale = 1.0
 	GameManager.is_paused = false
+	# 返回菜单时切换为主界面 BGM
+	AudioManager.play_bgm("menu")
 	get_tree().change_scene_to_file(path)
 
 

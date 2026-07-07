@@ -342,6 +342,8 @@ func _do_change_scene(path: String) -> void:
 	get_tree().paused = false
 	Engine.time_scale = 1.0
 	GameManager.is_paused = false
+	# 返回菜单时切换为主界面 BGM
+	AudioManager.play_bgm("menu")
 	get_tree().change_scene_to_file(path)
 
 
