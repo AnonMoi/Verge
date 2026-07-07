@@ -284,6 +284,8 @@ func _reset_and_change_scene(scene_path: String) -> void:
 		TimeCycle.reset_state()
 	if Economy.has_method("reset_state"):
 		Economy.reset_state()
+	# 返回菜单时切换为主界面 BGM
+	AudioManager.play_bgm("menu")
 	get_tree().change_scene_to_file(scene_path)
 
 

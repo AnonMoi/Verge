@@ -180,6 +180,10 @@ func take_damage(amount: float) -> void:
 	hp = maxf(0.0, hp - amount)
 	print("[EnemyMovement] 敌人(%s)受到 %.0f 伤害, 剩余 HP: %.0f/%.0f" % [enemy_type, amount, hp, max_hp])
 
+	# 受击像素特效（火花 + 伤害浮字）
+	EffectsManager.spawn_hit_effect(global_position)
+	EffectsManager.spawn_damage_number(global_position, int(amount))
+
 	# 受击动画（AnimatedSprite2D 有 hit 动画则播放，没有则自动跳过）
 	if anim_controller and anim_controller.has_method("play_hit"):
 		anim_controller.play_hit()
@@ -195,6 +199,9 @@ func _die() -> void:
 	is_dead = true
 
 	print("[EnemyMovement] 敌人(%s)被击杀!" % enemy_type)
+
+	# 死亡像素爆炸特效
+	EffectsManager.spawn_death_effect(global_position)
 
 	# 发出死亡信号（Economy 会给奖励）
 	SignalBus.enemy_died.emit(enemy_type, _get_kill_reward())

@@ -56,6 +56,9 @@ func _ready() -> void:
 	# 连接攻击动画控制器信号
 	_setup_attack_animation_controller()
 
+	# 部署像素光环特效（角色出场增强效果）
+	EffectsManager.spawn_deploy_effect(global_position)
+
 
 ## 查找攻击动画控制器（子节点中名为 AttackAnimationController 的节点）
 func _find_attack_anim_controller() -> Node:
@@ -201,7 +204,7 @@ func _perform_attack() -> void:
 func _play_attack_sfx() -> void:
 	match char_id:
 		Constants.CHAR_PIONEER:
-			AudioManager.play_sfx("pioneer_attack", 1.0)
+			AudioManager.play_sfx("pioneer_attack", 1.8)
 		Constants.CHAR_DEFENDER:
 			AudioManager.play_sfx("defender_attack", 1.0)
 		Constants.CHAR_SNIPER:

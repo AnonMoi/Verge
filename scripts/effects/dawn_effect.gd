@@ -36,13 +36,16 @@ func play_dawn_effect() -> void:
 	# 2. 显示"黎明"大字
 	_show_dawn_text()
 
-	# 3. 敌人消散
+	# 3. 黎明白色像素粒子上升（增强效果）
+	EffectsManager.spawn_dawn_particles()
+
+	# 4. 敌人消散
 	_dissolve_enemies()
 
-	# 4. 角色恢复 HP + 飘字
+	# 5. 角色恢复 HP + 飘字
 	_heal_characters()
 
-	# 5. 核心奖励检查
+	# 6. 核心奖励检查
 	_check_core_bonus()
 
 	# 6. 清理完毕

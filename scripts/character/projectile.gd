@@ -59,6 +59,8 @@ func _check_hit() -> void:
 
 		if global_position.distance_to(enemy.global_position) < 40.0:
 			enemy.take_damage(damage)
+			# 命中像素火花特效
+			EffectsManager.spawn_hit_effect(global_position)
 			break
 
 	_queue_destroy()

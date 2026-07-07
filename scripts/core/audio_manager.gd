@@ -16,16 +16,18 @@ const BGM_TRACKS := {
 # ============ SFX 轨道映射 ============
 const SFX_TRACKS := {
 	"pioneer_attack": "res://resources/audio/sfx/pioneer_attack.wav",
-	"defender_attack": "res://resources/audio/sfx/defender_attack.wav",
+	"defender_attack": "res://resources/audio/sfx/defender_attack.mp3",
 	"sniper_attack": "res://resources/audio/sfx/sniper_attack.ogg",
 	"button_click": "res://resources/audio/sfx/button_click.mp3",
 	"button_hover": "res://resources/audio/sfx/button_hover.mp3",
 	"upgrade": "res://resources/audio/sfx/upgrade.mp3",
 	"mine": "res://resources/audio/sfx/mine.mp3",
+	"victory": "res://resources/audio/sfx/victory.mp3",
+	"defeat": "res://resources/audio/sfx/defeat.mp3",
 }
 
 # ============ 音量 ============
-var music_volume: float = 0.3
+var music_volume: float = 0.22
 var sfx_volume: float = 1.0
 
 # ============ BGM 播放器（双播放器交叉淡入淡出）============
@@ -68,7 +70,7 @@ func play_bgm(track_name: String, fade: float = 0.8) -> void:
 	if not BGM_TRACKS.has(track_name):
 		push_warning("[AudioManager] 未知 BGM: %s" % track_name)
 		return
-	var stream := _load(BGM_TRACKS[track_name])
+	var stream := _load(BGM_TRACKS[track_name], true)
 	if not stream:
 		return
 	_current_bgm_name = track_name
@@ -90,6 +92,11 @@ func stop_bgm(fade: float = 0.5) -> void:
 	_current_bgm_name = ""
 	if _crossfade_tween and _crossfade_tween.is_valid():
 		_crossfade_tween.kill()
+	# fade=0 时立即停止（不用 tween，避免 time_scale=0 时冻结导致 BGM 不停）
+	if fade <= 0.0:
+		_bgm_a.stop()
+		_bgm_b.stop()
+		return
 	if _bgm_a.playing:
 		var tw := create_tween()
 		tw.tween_property(_bgm_a, "volume_db", -80.0, fade)
@@ -100,12 +107,18 @@ func stop_bgm(fade: float = 0.5) -> void:
 		tw.tween_callback(_bgm_b.stop)
 
 
+## 暂停/恢复 BGM 播放（游戏暂停时调用，不影响 SFX）
+func set_bgm_paused(paused: bool) -> void:
+	_bgm_a.stream_paused = paused
+	_bgm_b.stream_paused = paused
+
+
 # ============ SFX 控制 ============
 
 func play_sfx(track_name: String, vol_mult: float = 1.0) -> void:
 	if not SFX_TRACKS.has(track_name):
 		return
-	var stream := _load(SFX_TRACKS[track_name])
+	var stream := _load(SFX_TRACKS[track_name], false)
 	if not stream:
 		return
 	for p in _sfx_pool:
@@ -137,16 +150,32 @@ func set_sfx_volume(v: float) -> void:
 
 # ============ 辅助 ============
 
-func _load(path: String) -> AudioStream:
-	if _cache.has(path):
-		return _cache[path]
+func _load(path: String, loop: bool = false) -> AudioStream:
+	var cache_key := path + ("|loop" if loop else "|noloop")
+	if _cache.has(cache_key):
+		return _cache[cache_key]
 	if not FileAccess.file_exists(path):
 		push_warning("[AudioManager] 文件不存在: %s" % path)
 		return null
 	var s := load(path) as AudioStream
 	if s:
-		_cache[path] = s
+		# 仅 BGM 设置循环播放（SFX 不循环，避免按键音效无限循环）
+		if loop:
+			_set_loop(s)
+		_cache[cache_key] = s
 	return s
+
+
+## 按音频格式设置循环播放
+func _set_loop(stream: AudioStream) -> void:
+	if stream is AudioStreamWAV:
+		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+		(stream as AudioStreamWAV).loop_begin = 0
+		(stream as AudioStreamWAV).loop_end = (stream as AudioStreamWAV).data.size()
+	elif stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+	elif stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = true
 
 
 static func _vol(v: float) -> float:
