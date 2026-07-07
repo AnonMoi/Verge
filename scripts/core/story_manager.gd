@@ -5,6 +5,7 @@ var characters: Dictionary = {}
 var lords: Dictionary = {}
 var chapters: Dictionary = {}
 var dialogues: Dictionary = {}
+var terminology: Dictionary = {}
 
 var current_chapter: String = ""
 var current_dialogue_index: int = 0
@@ -22,6 +23,7 @@ func _load_story_data() -> void:
 	_load_json("lords.json", "lords")
 	_load_json("chapters.json", "chapters")
 	_load_json("dialogues.json", "dialogues")
+	_load_json("terminology.json", "terminology")
 
 func _load_json(file_name: String, var_name: String) -> void:
 	var file := FileAccess.open(STORY_DIR + file_name, FileAccess.READ)
@@ -57,14 +59,14 @@ func get_chapter_opening_dialogue(chapter_id: String) -> Array:
 
 func _get_prologue_opening_dialogue() -> Array:
 	var prologue := chapters.get("prologue", {})
-	var dialogues := []
+	var dialogue_list := []
 	if prologue.has("pre_level_dialogue"):
 		var pre_dialogue := prologue["pre_level_dialogue"]
 		if pre_dialogue.has("dialogues"):
-			dialogues.append_array(pre_dialogue["dialogues"])
+			dialogue_list.append_array(pre_dialogue["dialogues"])
 		if pre_dialogue.has("rita_house") and pre_dialogue["rita_house"].has("dialogues"):
-			dialogues.append_array(pre_dialogue["rita_house"]["dialogues"])
-	return dialogues
+			dialogue_list.append_array(pre_dialogue["rita_house"]["dialogues"])
+	return dialogue_list
 
 func get_chapter_ending_dialogue(chapter_id: String) -> Array:
 	var chapter_data := get_chapter_data(chapter_id)
@@ -149,3 +151,79 @@ func get_chapter_map(chapter_id: String) -> String:
 func get_chapter_lord(chapter_id: String) -> String:
 	var chapter_data := get_chapter_data(chapter_id)
 	return chapter_data.get("lord", "")
+
+func get_boss_dialogue(chapter_id: String) -> Array:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	if dialogue_data.has("night_boss"):
+		var boss_dialogue := dialogue_data["night_boss"]
+		if typeof(boss_dialogue) == TYPE_DICTIONARY:
+			return [boss_dialogue]
+		return boss_dialogue
+	return []
+
+func get_clear_dialogue(chapter_id: String) -> Array:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	if dialogue_data.has("clear"):
+		var clear_dialogue := dialogue_data["clear"]
+		if typeof(clear_dialogue) == TYPE_DICTIONARY:
+			return [clear_dialogue]
+		return clear_dialogue
+	return []
+
+func get_branch_kill_dialogue(chapter_id: String) -> Array:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	if dialogue_data.has("branch_kill"):
+		var kill_dialogue := dialogue_data["branch_kill"]
+		if typeof(kill_dialogue) == TYPE_DICTIONARY:
+			return [kill_dialogue]
+		return kill_dialogue
+	return []
+
+func get_branch_redemption_dialogue(chapter_id: String) -> Array:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	if dialogue_data.has("branch_redemption"):
+		var redemption_dialogue := dialogue_data["branch_redemption"]
+		if typeof(redemption_dialogue) == TYPE_DICTIONARY:
+			return [redemption_dialogue]
+		return redemption_dialogue
+	return []
+
+func get_memory_text(chapter_id: String) -> String:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	return dialogue_data.get("memory", "")
+
+func get_ending_monologue(chapter_id: String) -> String:
+	var dialogue_data := dialogues.get(chapter_id, {})
+	return dialogue_data.get("ending_monologue", "")
+
+func get_prologue_dialogue(key: String) -> Array:
+	var prologue := dialogues.get("prologue", {})
+	if prologue.has(key):
+		var data := prologue[key]
+		if typeof(data) == TYPE_DICTIONARY:
+			return [data]
+		return data
+	return []
+
+func get_terminology(term_id: String) -> Dictionary:
+	if terminology.has("glossary"):
+		for category in terminology["glossary"]:
+			var terms := terminology["glossary"][category].get("terms", [])
+			for term in terms:
+				if term.get("id") == term_id:
+					return term
+	return {}
+
+func get_terminology_by_category(category: String) -> Array:
+	if terminology.has("glossary") and terminology["glossary"].has(category):
+		return terminology["glossary"][category].get("terms", [])
+	return []
+
+func get_all_terminology() -> Dictionary:
+	return terminology.get("glossary", {})
+
+func get_revelation_dialogue() -> Array:
+	return dialogues.get("chapter_7", {}).get("revelation", [])
+
+func get_final_battle_dialogue() -> Array:
+	return dialogues.get("chapter_7", {}).get("final_battle", [])
