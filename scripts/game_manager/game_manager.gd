@@ -76,6 +76,9 @@ func start_level(level_name: String) -> void:
 	print("[GameManager] 开始关卡: ", level_name)
 	
 	_trigger_chapter_opening(level_name)
+	
+	SignalBus.game_started.emit()
+	TutorialManager.reset()
 
 func set_paused(paused: bool) -> void:
 	is_paused = paused

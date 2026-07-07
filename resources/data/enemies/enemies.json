@@ -1,9 +1,8 @@
-{
-  "enemies": {
+{"enemies": {
 	"chaos_grunt": {
 	  "display_name": "混沌杂兵",
 	  "icon": "🟢",
-	  "hp": 100,
+	  "hp": 65,
 	  "speed": 80.0,
 	  "threat": "低",
 	  "kill_reward": 3,
@@ -16,7 +15,7 @@
 	"swift_ghost": {
 	  "display_name": "迅捷鬼影",
 	  "icon": "🟡",
-	  "hp": 70,
+	  "hp": 40,
 	  "speed": 144.0,
 	  "threat": "中",
 	  "kill_reward": 5,
@@ -33,7 +32,7 @@
 	"iron_elite": {
 	  "display_name": "黑铁精英",
 	  "icon": "⚫",
-	  "hp": 500,
+	  "hp": 520,
 	  "speed": 56.0,
 	  "threat": "高",
 	  "kill_reward": 12,

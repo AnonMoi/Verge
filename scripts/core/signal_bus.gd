@@ -81,3 +81,13 @@ signal chapter_ending_started(chapter_id: String)
 signal lord_encountered(lord_id: String)
 @warning_ignore("unused_signal")
 signal branch_choice(choices: Array)
+
+# ---------- 教学 ----------
+@warning_ignore("unused_signal")
+signal show_tutorial(text: String, position: Vector2)
+@warning_ignore("unused_signal")
+signal mine_placed()
+@warning_ignore("unused_signal")
+signal character_deployed(char_id: String)
+@warning_ignore("unused_signal")
+signal game_started()
