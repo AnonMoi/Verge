@@ -37,10 +37,13 @@ func start_phase(phase: Phase) -> void:
 	match phase:
 		Phase.DAY:
 			phase_duration = Constants.DAY_DURATION
+			AudioManager.play_bgm("day")
 		Phase.DUSK:
 			phase_duration = Constants.DUSK_DURATION
+			AudioManager.play_bgm("dusk")
 		Phase.NIGHT:
 			phase_duration = Constants.NIGHT_DURATION
+			AudioManager.play_bgm("night")
 	current_timer = phase_duration
 
 	# 发射阶段切换信号（供 UI、Spawner 等监听）

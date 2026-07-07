@@ -188,10 +188,24 @@ func _perform_attack() -> void:
 	if not current_target:
 		return
 
+	# 播放攻击音效（按角色类型）
+	_play_attack_sfx()
+
 	if is_ranged:
 		_perform_ranged_attack(current_target)
 	else:
 		_perform_melee_attack(current_target)
+
+
+## 按角色类型播放攻击音效
+func _play_attack_sfx() -> void:
+	match char_id:
+		Constants.CHAR_PIONEER:
+			AudioManager.play_sfx("pioneer_attack", 1.0)
+		Constants.CHAR_DEFENDER:
+			AudioManager.play_sfx("defender_attack", 1.0)
+		Constants.CHAR_SNIPER:
+			AudioManager.play_sfx("sniper_attack", 1.0)
 
 	# 仅当敌人实际死亡时才发送击杀信号（在 _die() 中已由 enemy_movement 发送 enemy_died）
 	# 这里不发送 character_killed_enemy，因为"击杀"由 enemy 端确认更准确

@@ -14,6 +14,9 @@ func _ready() -> void:
 	# 暗色渐变背景 + 余烬粒子（与主菜单同源，保证衔接顺滑）
 	MenuTheme.add_background(self)
 
+	# 播放主菜单 BGM
+	AudioManager.play_bgm("menu")
+
 	# 居中大标题 "Verge"（金属发光 + 描边）
 	var title := MenuTheme.make_title("Verge")
 	title.set_anchors_preset(Control.PRESET_FULL_RECT)

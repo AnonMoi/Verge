@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 Constants="*res://scripts/core/constants.gd"
 SignalBus="*res://scripts/core/signal_bus.gd"
+AudioManager="*res://scripts/core/audio_manager.gd"
 GameManager="*res://scripts/game_manager/game_manager.gd"
 TimeCycle="*res://scripts/time_cycle/time_cycle.gd"
 Economy="*res://scripts/economy/economy.gd"

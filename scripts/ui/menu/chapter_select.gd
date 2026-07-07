@@ -37,6 +37,7 @@ func _ready() -> void:
 
 	# 返回按钮（右上角）
 	var back_btn: Button = $BackButton
+	MenuTheme.attach_button_sfx(back_btn)
 	back_btn.pressed.connect(_on_back)
 
 	Engine.time_scale = 1.0

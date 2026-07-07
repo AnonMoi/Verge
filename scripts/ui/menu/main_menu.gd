@@ -55,6 +55,8 @@ func _add_button(text: String, callback: Callable) -> Button:
 	# 悬停缩放反馈（鼠标进入/离开）
 	btn.mouse_entered.connect(func() -> void: _tween_scale(btn, 1.06))
 	btn.mouse_exited.connect(func() -> void: _tween_scale(btn, 1.0))
+	# 绑定按钮触碰和点击音效
+	MenuTheme.attach_button_sfx(btn)
 	_buttons_container.add_child(btn)
 	return btn
 
