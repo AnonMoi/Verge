@@ -734,11 +734,17 @@ text = "狙击 (25)"
 icon = ExtResource("15_kwr1i")
 
 [node name="MineBtn" type="Button" parent="DeployPanel" unique_id=1098447458]
-offset_left = 799.0
-offset_top = 659.0
-offset_right = 919.0
-offset_bottom = 721.0
+offset_left = 825.0
+offset_top = 620.0
+offset_right = 981.4497
+offset_bottom = 749.0
 text = "金矿 (50)"
+
+[node name="TextureRect" type="TextureRect" parent="DeployPanel/MineBtn" unique_id=1165189443]
+layout_mode = 0
+offset_top = 507.0
+offset_right = 672.0
+offset_bottom = 946.0
 
 [node name="SelectedIndicator" type="ColorRect" parent="DeployPanel" unique_id=2053676742]
 visible = false
