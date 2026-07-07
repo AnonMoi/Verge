@@ -102,6 +102,12 @@ func stop_bgm(fade: float = 0.5) -> void:
 		tw.tween_callback(_bgm_b.stop)
 
 
+## 暂停/恢复 BGM 播放（游戏暂停时调用，不影响 SFX）
+func set_bgm_paused(paused: bool) -> void:
+	_bgm_a.stream_paused = paused
+	_bgm_b.stream_paused = paused
+
+
 # ============ SFX 控制 ============
 
 func play_sfx(track_name: String, vol_mult: float = 1.0) -> void:

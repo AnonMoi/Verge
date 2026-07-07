@@ -56,6 +56,8 @@ func open() -> void:
 	visible = true
 	get_tree().paused = true
 	GameManager.is_paused = true
+	# 暂停 BGM（SFX 不受影响）
+	AudioManager.set_bgm_paused(true)
 
 
 func _close() -> void:
@@ -67,6 +69,8 @@ func _close() -> void:
 	GameManager.is_paused = false
 	Engine.time_scale = _saved_time_scale
 	visible = false
+	# 恢复 BGM
+	AudioManager.set_bgm_paused(false)
 
 
 # ============ 页面切换（互斥，不叠加）============
