@@ -4,21 +4,19 @@
 
 extends Node
 
+const starting_gold: int = 150
 var gold: int = 0
-var mines: Array[Node] = []  # 金矿节点列表
+var mines: Array[Node] = []
 
 func _ready() -> void:
-	# Constants 是 Node 实例，"in" 检查对 Node 不可靠
-	# 直接使用硬编码默认值（后续可从 game_config.json 读取）
-	# 2026-07-01: 改成 50 金（PVZ 式开局 —— 刚好够放 1 个金矿）
-	gold = 50
+	gold = starting_gold
 	print("[Economy] 初始资金: ", gold)
 
 
 ## 重置经济到初始状态（从菜单进入新一局前调用）。
 ## 清空残留的金矿引用（旧金矿节点已随场景销毁，引用变无效）。
 func reset_state() -> void:
-	gold = 50
+	gold = 150
 	mines.clear()
 	print("[Economy] 状态已重置, 初始资金: ", gold)
 

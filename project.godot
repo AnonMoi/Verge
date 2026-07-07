@@ -27,6 +27,9 @@ TimeCycle="*res://scripts/time_cycle/time_cycle.gd"
 Economy="*res://scripts/economy/economy.gd"
 Resolution="*res://scripts/core/resolution_manager.gd"
 EffectsManager="*res://scripts/effects/effects_manager.gd"
+StoryManager="*res://scripts/core/story_manager.gd"
+TutorialManager="*res://scripts/core/tutorial_manager.gd"
+BlessingManager="*res://scripts/core/blessing_manager.gd"
 
 [display]
 

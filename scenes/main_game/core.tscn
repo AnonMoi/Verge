@@ -35,3 +35,23 @@ animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CoreHitbox" unique_id=1442049432]
 shape = SubResource("CircleShape2D_core_hitbox")
+
+[node name="DamageEffects" type="Node2D" parent="." unique_id=1523456789]
+
+[node name="CrackEffect" type="Sprite2D" parent="DamageEffects" unique_id=1523456790]
+position = Vector2(0, -67)
+scale = Vector2(0.14, 0.14)
+visible = false
+texture = ExtResource("2_1w7hp")
+
+[node name="SparkEffect" type="AnimatedSprite2D" parent="DamageEffects" unique_id=1523456791]
+position = Vector2(0, -67)
+scale = Vector2(0.14, 0.14)
+visible = false
+
+[node name="WarningLight" type="ColorRect" parent="DamageEffects" unique_id=1523456792]
+position = Vector2(-100, -134)
+size = Vector2(200, 200)
+color = Color(1, 0.1, 0.1, 0.3)
+visible = false
+z_index = -1

@@ -62,11 +62,49 @@ func _process(delta: float) -> void:
 func advance_phase() -> void:
 	match current_phase:
 		Phase.DAY:
+			_trigger_dusk_dialogue()
 			start_phase(Phase.DUSK)
 		Phase.DUSK:
+			_trigger_night_dialogue()
 			start_phase(Phase.NIGHT)
 		Phase.NIGHT:
 			trigger_dawn()
+
+func _trigger_dusk_dialogue() -> void:
+	if StoryManager and StoryManager.has_method("is_dialogue_active"):
+		if StoryManager.is_dialogue_active:
+			return
+	
+	var current_chapter := StoryManager.get("current_chapter", "")
+	if current_chapter != "" and current_chapter == "chapter_0":
+		_trigger_tutorial_dialogue("dusk")
+
+func _trigger_night_dialogue() -> void:
+	if StoryManager and StoryManager.has_method("is_dialogue_active"):
+		if StoryManager.is_dialogue_active:
+			return
+	
+	var current_chapter := StoryManager.get("current_chapter", "")
+	if current_chapter != "" and current_chapter == "chapter_0":
+		_trigger_tutorial_dialogue("night")
+
+func _trigger_tutorial_dialogue(phase: String) -> void:
+	var dialogues := []
+	match phase:
+		"dusk":
+			dialogues = [
+				{"speaker": "丽塔", "text": "黄昏来了，魔物先锋要出现了，你能提前看清它们的进攻路线吗？"},
+				{"speaker": "Kane", "text": "我能看见它们从哪边来，我们调整防御塔位置。"}
+			]
+		"night":
+			dialogues = [
+				{"speaker": "丽塔", "text": "魔物来了！大家做好准备！"},
+				{"speaker": "Kane", "text": "不用担心，我已经布置好了防线。"}
+			]
+	
+	if dialogues.size() > 0:
+		SignalBus.show_dialogue.emit(dialogues)
+		print("[TimeCycle] 触发教程对话: ", phase)
 
 func trigger_dawn() -> void:
 	print("[TimeCycle] 黎明! 第 %d 天结束 (day=%d)" % [GameManager.current_day, GameManager.current_day])

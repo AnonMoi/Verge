@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://de685qftwmyfa" path="res://scripts/ui/game_over_panel.gd" id="8_gameover_script"]
 [ext_resource type="Script" uid="uid://dxq5n8bd47ayr" path="res://scripts/ui/pause_menu.gd" id="9_pause_menu_script"]
 [ext_resource type="Script" uid="uid://bqleum3oboq7t" path="res://scripts/ui/victory_panel.gd" id="10_victory_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_panel.tscn" id="11_dialogue_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/tutorial_hint.tscn" id="12_tutorial_hint"]
 
 [sub_resource type="RectangleShape2D" id="RectShape2D_slot"]
 size = Vector2(64, 64)
@@ -476,21 +478,21 @@ offset_left = 30.0
 offset_top = 650.0
 offset_right = 150.0
 offset_bottom = 712.0
-text = "先锋 (10)"
+text = "先锋 (20)"
 
 [node name="DefenderBtn" type="Button" parent="DeployPanel" unique_id=1003401343]
 offset_left = 170.0
 offset_top = 650.0
 offset_right = 290.0
 offset_bottom = 712.0
-text = "重装 (28)"
+text = "重装 (40)"
 
 [node name="SniperBtn" type="Button" parent="DeployPanel" unique_id=735483288]
 offset_left = 310.0
 offset_top = 650.0
 offset_right = 430.0
 offset_bottom = 712.0
-text = "狙击 (25)"
+text = "狙击 (45)"
 
 [node name="MineBtn" type="Button" parent="DeployPanel" unique_id=1098447458]
 offset_left = 450.0
@@ -549,3 +551,7 @@ script = ExtResource("10_victory_script")
 layer = 200
 visible = false
 script = ExtResource("8_gameover_script")
+
+[node name="DialoguePanel" parent="." instance=ExtResource("11_dialogue_panel")]
+
+[node name="TutorialHint" parent="." instance=ExtResource("12_tutorial_hint")]

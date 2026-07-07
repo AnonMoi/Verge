@@ -15,7 +15,6 @@ const TUTORIAL_SCENE := "res://scenes/main_game/main_game.tscn"
 const MAIN_MENU_SCENE := "res://scenes/menu/main_menu.tscn"
 const DEV_MSG: String = "正在开发中"
 
-# 章节数据：id / 标题 / 副标题(地形·天气) / 主题色 / 是否已实现的关卡
 class Chapter:
 	var index: int
 	var chapter_label: String   # "第一章"
@@ -24,6 +23,7 @@ class Chapter:
 	var weather: String         # "星月晴朗"
 	var theme_color: Color      # 卡片主色
 	var scene_path: String      # "" = 未实现
+	var chapter_id: String      # 剧情章节ID
 
 var chapters: Array[Chapter] = []
 @onready var _list: VBoxContainer = $Panel/Scroll/List
@@ -43,23 +43,53 @@ func _ready() -> void:
 	Engine.time_scale = 1.0
 
 
-# ============ 章节数据（来自完整版策划书） ============
+const CHAPTER_COLORS: Dictionary = {
+	"边境小镇": Color(0.30, 0.55, 0.30),
+	"熔岩焦土": Color(0.80, 0.32, 0.18),
+	"永冻冰原": Color(0.45, 0.70, 0.90),
+	"雷鸣荒原": Color(0.55, 0.50, 0.85),
+	"深海裂隙": Color(0.25, 0.40, 0.65),
+	"峡谷岩地": Color(0.60, 0.50, 0.35),
+	"腐化密林": Color(0.30, 0.45, 0.25),
+	"中央王域": Color(0.75, 0.60, 0.30)
+}
+
 func _build_chapters() -> void:
 	chapters.clear()
-	_add(0, "教学", "新手教学", "平原", "星月晴朗", Color(0.30, 0.55, 0.30), TUTORIAL_SCENE)
-	_add(1, "第一章", "暗夜突袭", "平原", "迷雾笼罩", Color(0.40, 0.45, 0.55), "")
-	_add(2, "第二章", "熔岩前哨", "火山地脉", "烈日当空", Color(0.80, 0.32, 0.18), "")
-	_add(3, "第三章", "冰封隘口", "极北冰原", "暴风雪", Color(0.45, 0.70, 0.90), "")
-	_add(4, "第四章", "雷鸣峡谷", "风暴荒原", "雷暴交加", Color(0.55, 0.50, 0.85), "")
-	_add(5, "第五章", "深渊港口", "深海裂隙", "倾盆大雨", Color(0.25, 0.40, 0.65), "")
-	_add(6, "第六章", "迷踪密林", "腐化密林", "迷雾笼罩", Color(0.30, 0.45, 0.25), "")
-	_add(7, "第七章", "绝壁要塞", "峡谷岩地", "狂风呼啸", Color(0.60, 0.50, 0.35), "")
-	_add(8, "第八章", "元素圣殿", "混合地形", "渐变天气", Color(0.75, 0.60, 0.30), "")
-	_add(9, "第九章", "Boss 前奏", "冰原·深海", "混合天气", Color(0.50, 0.55, 0.70), "")
-	_add(10, "第十章", "深渊回响", "混沌虚空", "混沌气象", Color(0.65, 0.20, 0.55), "")
+	_load_chapters_from_story()
+
+func _load_chapters_from_story() -> void:
+	if not StoryManager or not StoryManager.has_method("get_all_chapters"):
+		_build_fallback_chapters()
+		return
+	
+	var story_chapters := StoryManager.get_all_chapters()
+	var chapter_labels := ["序章", "第一章", "第二章", "第三章", "第四章", "第五章", "第六章", "第七章"]
+	
+	for i in story_chapters.size():
+		var story_ch := story_chapters[i]
+		var chapter_id := story_ch.get("id", "")
+		var title := story_ch.get("title", "未知章节")
+		var map_name := story_ch.get("map", "")
+		var theme_color := CHAPTER_COLORS.get(map_name, Color(0.5, 0.5, 0.5))
+		
+		var label := chapter_labels[i] if i < chapter_labels.size() else "第%d章" % (i + 1)
+		var scene_path := TUTORIAL_SCENE if i == 0 else ""
+		
+		_add(i, label, title, map_name, "", theme_color, scene_path, chapter_id)
+
+func _build_fallback_chapters() -> void:
+	_add(0, "序章", "错位旅人・破败边境小镇", "边境小镇", "", Color(0.30, 0.55, 0.30), TUTORIAL_SCENE, "chapter_0")
+	_add(1, "第一章", "焦土征途・打破烈焰轮回", "熔岩焦土", "", Color(0.80, 0.32, 0.18), "", "chapter_1")
+	_add(2, "第二章", "冰原挽歌・融化万年执念", "永冻冰原", "", Color(0.45, 0.70, 0.90), "", "chapter_2")
+	_add(3, "第三章", "雷鸣荒野・撕碎雷霆宿命", "雷鸣荒原", "", Color(0.55, 0.50, 0.85), "", "chapter_3")
+	_add(4, "第四章", "深渊潜航・照亮轮回黑暗", "深海裂隙", "", Color(0.25, 0.40, 0.65), "", "chapter_4")
+	_add(5, "第五章", "峡谷壁垒・平息岩壁憎恨", "峡谷岩地", "", Color(0.60, 0.50, 0.35), "", "chapter_5")
+	_add(6, "第六章", "腐林新生・终结荒芜宿命", "腐化密林", "", Color(0.30, 0.45, 0.25), "", "chapter_6")
+	_add(7, "第七章", "王都真相・虚空傀儡国王", "中央王域", "", Color(0.75, 0.60, 0.30), "", "chapter_7")
 
 
-func _add(idx: int, ch: String, name_str: String, terrain: String, weather: String, color: Color, scene_path: String) -> void:
+func _add(idx: int, ch: String, name_str: String, terrain: String, weather: String, color: Color, scene_path: String, chapter_id: String = "") -> void:
 	var c := Chapter.new()
 	c.index = idx
 	c.chapter_label = ch
@@ -68,6 +98,7 @@ func _add(idx: int, ch: String, name_str: String, terrain: String, weather: Stri
 	c.weather = weather
 	c.theme_color = color
 	c.scene_path = scene_path
+	c.chapter_id = chapter_id
 	chapters.append(c)
 
 
@@ -169,24 +200,26 @@ func _on_card_clicked(c: Chapter) -> void:
 	if c.scene_path == "":
 		MenuTheme.show_toast(self, DEV_MSG)
 		return
-	# 已实现关卡：进入游戏前重置全局状态，保证从菜单进来的局是干净的
-	_reset_global_state()
+	_reset_global_state(c)
 	MenuTheme.change_scene(c.scene_path)
 
 
-## 重置 autoload 残留状态（防止上一局的金币/天数/暂停等带进来）
-func _reset_global_state() -> void:
+func _reset_global_state(c: Chapter = null) -> void:
 	GameManager.current_day = 1
 	GameManager.is_game_over = false
 	GameManager.is_game_won = false
 	GameManager.is_paused = false
 	GameManager.perfect_clear = false
 	Engine.time_scale = 1.0
-	# TimeCycle / Economy 也复位
+	
 	if TimeCycle.has_method("reset_state"):
 		TimeCycle.reset_state()
 	if Economy.has_method("reset_state"):
 		Economy.reset_state()
+	
+	if c and c.chapter_id != "" and StoryManager and StoryManager.has_method("set_current_chapter"):
+		StoryManager.set_current_chapter(c.chapter_id)
+		print("[ChapterSelect] 设置当前剧情章节: ", c.chapter_id)
 
 
 func _on_back() -> void:

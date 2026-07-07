@@ -1,0 +1,175 @@
+[gd_scene format=3 uid="uid://boss_shadow_lord"]
+
+[ext_resource type="Script" path="res://scripts/enemy/boss_shadow_lord.gd" id="1_boss_script"]
+[ext_resource type="Script" path="res://scripts/enemy/enemy_animation_controller.gd" id="2_anim_ctrl"]
+[ext_resource type="Texture2D" path="res://character_sources/Gorgon_1/Walk.png" id="tex_walk"]
+[ext_resource type="Texture2D" path="res://character_sources/Gorgon_1/Attack_1.png" id="tex_atk"]
+[ext_resource type="Texture2D" path="res://character_sources/Gorgon_1/Hurt.png" id="tex_hurt"]
+[ext_resource type="Texture2D" path="res://character_sources/Gorgon_1/Dead.png" id="tex_dead"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_boss"]
+radius = 35.0
+
+[sub_resource type="AtlasTexture" id="walk_0"]
+atlas = ExtResource("tex_walk")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_1"]
+atlas = ExtResource("tex_walk")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_2"]
+atlas = ExtResource("tex_walk")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_3"]
+atlas = ExtResource("tex_walk")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_4"]
+atlas = ExtResource("tex_walk")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="walk_5"]
+atlas = ExtResource("tex_walk")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="atk_0"]
+atlas = ExtResource("tex_atk")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="atk_1"]
+atlas = ExtResource("tex_atk")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="atk_2"]
+atlas = ExtResource("tex_atk")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="atk_3"]
+atlas = ExtResource("tex_atk")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="hurt_0"]
+atlas = ExtResource("tex_hurt")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="hurt_1"]
+atlas = ExtResource("tex_hurt")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="dead_0"]
+atlas = ExtResource("tex_dead")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="dead_1"]
+atlas = ExtResource("tex_dead")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="dead_2"]
+atlas = ExtResource("tex_dead")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="BossSpriteFrames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("atk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atk_3")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("dead_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("dead_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("dead_2")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("hurt_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("hurt_1")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_5")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="Boss_ShadowLord" type="CharacterBody2D"]
+script = ExtResource("1_boss_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_boss")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -60)
+scale = Vector2(1.8, 1.8)
+modulate = Color(0.2, 0.15, 0.3, 1.0)
+sprite_frames = SubResource("BossSpriteFrames")
+animation = &"idle"
+
+[node name="EnemyAnimationController" type="Node" parent="."]
+script = ExtResource("2_anim_ctrl")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+position = Vector2(-50, -85)
+size = Vector2(100, 8)
+max_value = 3000.0
+value = 3000.0
+tint_over = Color(1, 0.2, 0.2)
+tint_under = Color(0.3, 0.3, 0.3)
+
+[node name="ShieldBar" type="ProgressBar" parent="."]
+position = Vector2(-50, -75)
+size = Vector2(100, 6)
+max_value = 500.0
+value = 0.0
+tint_over = Color(0.3, 0.6, 1)
+tint_under = Color(0.2, 0.2, 0.2)
+visible = false
+
+[node name="DamageText" type="DamageText" parent="."]
+visible = false

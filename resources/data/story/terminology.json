@@ -1,0 +1,273 @@
+{
+  "glossary": {
+    "world": {
+      "terms": [
+        {
+          "id": "ring_barrier",
+          "name": "环形魔法屏障",
+          "english": "Ring Barrier",
+          "description": "环绕整片环界大陆的巨型魔法屏障，隔绝虚空与混沌魔物，是大陆最后的防线。",
+          "origin": "千年前守界议会倾尽魔力建造，由六大边境界碑共同支撑。"
+        },
+        {
+          "id": "void",
+          "name": "虚空",
+          "english": "The Void",
+          "description": "大陆屏障之外的无尽混沌空间，是魔物的本源所在，充满腐蚀一切的混沌气息。",
+          "danger_level": "极高"
+        },
+        {
+          "id": "cycle_prison",
+          "name": "轮回牢笼",
+          "english": "Cycle Prison",
+          "description": "时之终结者・归零为环界大陆设下的时间囚笼，使大陆陷入无限昼夜循环，每次黑夜后世界归零重启。",
+          "purpose": "引诱并吞噬主神残魂Kane"
+        },
+        {
+          "id": "return_to_zero",
+          "name": "归零",
+          "english": "Return to Zero",
+          "description": "虚空终极存在，将整片大陆锁入轮回牢笼的元凶，操控国王作为傀儡推行不作为国策。",
+          "goal": "彻底抹除打破宿命的变数Kane，永久掌控位面"
+        },
+        {
+          "id": "void_fissure",
+          "name": "虚空裂隙",
+          "english": "Void Fissure",
+          "description": "屏障薄弱处撕裂的时空裂缝，魔物从中涌出，黄昏和黑夜时裂隙会扩大。",
+          "locations": ["熔岩焦土", "永冻冰原", "雷鸣荒原", "深海裂隙", "峡谷岩地", "腐化密林"]
+        },
+        {
+          "id": "magic_dew",
+          "name": "魔力露珠",
+          "english": "Magic Dew",
+          "description": "白昼日光凝结的魔力结晶，是建造防御塔、修补屏障的核心资源，可通过金矿采集。",
+          "collection_method": "金矿自动产出"
+        },
+        {
+          "id": "boundary_stele",
+          "name": "界碑",
+          "english": "Boundary Stele",
+          "description": "支撑环形屏障的巨型魔法石碑，六大边境各有一座，破损后屏障力量会大幅衰减。",
+          "importance": "屏障核心支柱"
+        },
+        {
+          "id": "guardian_council",
+          "name": "守界议会",
+          "english": "Guardian Council",
+          "description": "千年前守护大陆的最高权力机构，由主神与六位守界英雄组成，在与归零的大战中惨败。",
+          "legacy": "六位英雄堕落后成为灾域领主"
+        },
+        {
+          "id": "god_remnant",
+          "name": "主神残魂",
+          "english": "Divine Remnant",
+          "description": "千年前守界主神陨落时残留的时间之力，寄宿于主角Kane灵魂中，是打破轮回的关键。",
+          "abilities": ["白昼赐福", "黄昏预视", "曦光裁决", "黎明引渡"]
+        },
+        {
+          "id": "cycle_script",
+          "name": "轮回剧本",
+          "english": "Cycle Script",
+          "description": "归零设定的固定轮回流程：王室不作为→边境失守→六大守护者堕落→魔物毁灭大陆→世界归零重启。",
+          "variable": "Kane是唯一不受剧本约束的变数"
+        }
+      ]
+    },
+    "characters": {
+      "terms": [
+        {
+          "id": "time_remnant_host",
+          "name": "时间残魂宿主",
+          "english": "Time Remnant Host",
+          "description": "寄宿主神时间残魂的人，不受轮回法则束缚，是打破循环的天选者。",
+          "holder": "Kane"
+        },
+        {
+          "id": "disaster_lord",
+          "name": "灾域领主",
+          "english": "Disaster Lord",
+          "description": "曾是初代守界英雄，在无数次轮回中因绝望扭曲心性，割据边境成为BOSS的存在。",
+          "members": ["熔核", "凛渊", "轰霆", "渊噬", "磐石", "荒芜之母"]
+        },
+        {
+          "id": "border_dweller",
+          "name": "边境住民",
+          "english": "Border Dweller",
+          "description": "世代居住在屏障外围的百姓，常年面对魔物威胁，在轮回中反复战死重生。",
+          "representative": "丽塔"
+        },
+        {
+          "id": "void_puppet",
+          "name": "虚空傀儡",
+          "english": "Void Puppet",
+          "description": "被归零缠魂操控的存在，无意识推行摆烂国策，加速世界覆灭。",
+          "example": "中央王域国王"
+        },
+        {
+          "id": "border_warrior",
+          "name": "戍边军士",
+          "english": "Border Warrior",
+          "description": "驻守屏障沿线的士兵，是塔防防线的守军单位，常年无补给，在轮回中反复战死。",
+          "roles": ["先锋", "重装", "狙击"]
+        }
+      ]
+    },
+    "locations": {
+      "terms": [
+        {
+          "id": "ring_continent",
+          "name": "环界大陆",
+          "english": "Ring Continent",
+          "description": "游戏世界的主体，正圆形环形版图，外围是虚空，内部是人类文明。",
+          "shape": "正圆形"
+        },
+        {
+          "id": "central_domain",
+          "name": "中央王域",
+          "english": "Central Domain",
+          "description": "大陆中心的王室领地，富足安稳，贵族垄断魔力，是终章地图。",
+          "feature": "终章地图"
+        },
+        {
+          "id": "windfall_town",
+          "name": "落风小镇",
+          "english": "Windfall Town",
+          "description": "边境小镇，主角Kane被丽塔收留的地方，见证无数轮回灾乱。",
+          "importance": "故事起点"
+        },
+        {
+          "id": "magma_wasteland",
+          "name": "熔岩焦土",
+          "english": "Magma Wasteland",
+          "description": "东境区域，大地遍布岩浆裂隙，六大边境第一个沦陷的区域。",
+          "feature": "黑夜时长翻倍"
+        },
+        {
+          "id": "eternal_frost_plains",
+          "name": "永冻冰原",
+          "english": "Eternal Frost Plains",
+          "description": "北境区域，漫天暴雪，所有防御工事冻成冰雕，生机断绝。",
+          "feature": "黄昏魔物自带减速"
+        },
+        {
+          "id": "thunder_wastes",
+          "name": "雷鸣荒原",
+          "english": "Thunder Wastes",
+          "description": "西北区域，雷云常年遮蔽天空，地面遍布雷霆裂隙。",
+          "feature": "无特殊机制"
+        },
+        {
+          "id": "abyss_rift",
+          "name": "深海裂隙",
+          "english": "Abyss Rift",
+          "description": "南境区域，常年不见天光，深海与空中双路线魔物进攻。",
+          "feature": "白昼视野受限"
+        },
+        {
+          "id": "canyon_rocklands",
+          "name": "峡谷岩地",
+          "english": "Canyon Rocklands",
+          "description": "西南区域，山体布满人为破坏的裂痕，岩壁巨像守护之地。",
+          "feature": "无特殊机制"
+        },
+        {
+          "id": "corrupted_forest",
+          "name": "腐化密林",
+          "english": "Corrupted Forest",
+          "description": "西境区域，草木发黑腐朽，腐化雾气侵蚀一切，六大边境最后一片区域。",
+          "feature": "无特殊机制"
+        }
+      ]
+    },
+    "mechanics": {
+      "terms": [
+        {
+          "id": "time_cycle",
+          "name": "时间循环",
+          "english": "Time Cycle",
+          "description": "昼夜并非自然天象，是归零轮回牢笼的运行程序，分为白昼、黄昏、黑夜、黎明四个阶段。",
+          "phases": ["白昼", "黄昏", "黑夜", "黎明"]
+        },
+        {
+          "id": "blessing_of_daylight",
+          "name": "白昼赐福",
+          "english": "Blessing of Daylight",
+          "description": "Kane专属技能，白昼使用，魔力露珠产出翻倍，加速防御塔建造升级。",
+          "phase": "白昼"
+        },
+        {
+          "id": "dusk_vision",
+          "name": "黄昏预视",
+          "english": "Dusk Vision",
+          "description": "Kane专属技能，黄昏使用，预览本晚全部魔物波次、进攻路线。",
+          "phase": "黄昏"
+        },
+        {
+          "id": "dawn_ruling",
+          "name": "曦光裁决",
+          "english": "Dawn Judgement",
+          "description": "Kane专属技能，黑夜使用，大范围圣光AOE，压制混沌魔物与领主BOSS。",
+          "phase": "黑夜"
+        },
+        {
+          "id": "dawn_guidance",
+          "name": "黎明引渡",
+          "english": "Dawn Guidance",
+          "description": "Kane专属技能，黎明使用，复活本关阵亡戍边守军，修复破损界碑。",
+          "phase": "黎明"
+        },
+        {
+          "id": "redemption",
+          "name": "救赎",
+          "english": "Redemption",
+          "description": "击败领主后选择化解其执念，使其归顺成为助战英雄，是达成完美结局的必要条件。",
+          "condition": "六大领主全部归顺"
+        },
+        {
+          "id": "annihilation",
+          "name": "寂灭",
+          "english": "Annihilation",
+          "description": "击败领主后选择斩杀，或丽塔死亡，导致结局不完美，轮回无法彻底终结。",
+          "result": "世界残留循环隐患"
+        }
+      ]
+    },
+    "enemies": {
+      "terms": [
+        {
+          "id": "chaos_grunt",
+          "name": "混沌先锋",
+          "english": "Chaos Grunt",
+          "description": "最基础的混沌魔物，数量庞大，普通攻击。",
+          "hp": 65,
+          "damage": 15
+        },
+        {
+          "id": "swift_ghost",
+          "name": "疾影幽灵",
+          "english": "Swift Ghost",
+          "description": "高速移动的魔物，体型较小，容易突破防线。",
+          "hp": 40,
+          "damage": 12
+        },
+        {
+          "id": "iron_elite",
+          "name": "钢铁精英",
+          "english": "Iron Elite",
+          "description": "高血量精英魔物，拥有更强的防御和攻击力。",
+          "hp": 520,
+          "damage": 35
+        },
+        {
+          "id": "shadow_lord",
+          "name": "暗影领主",
+          "english": "Shadow Lord",
+          "description": "正式关卡BOSS，拥有护盾、AOE等多种技能。",
+          "hp": 3000,
+          "damage": 50
+        }
+      ]
+    }
+  }
+}

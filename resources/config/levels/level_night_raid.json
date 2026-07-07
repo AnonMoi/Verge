@@ -1,0 +1,68 @@
+{
+  "level_id": "night_raid",
+  "level_name": "暗夜突袭",
+  "total_days": 3,
+  "description": "在黑暗中守护核心，抵挡三波敌人的猛烈进攻",
+  "waves": {
+    "dusk": {
+      "day_1": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 4},
+          {"type": "swift_ghost", "count": 1}
+        ],
+        "spawn_interval": 6.0
+      },
+      "day_2": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 5},
+          {"type": "swift_ghost", "count": 3}
+        ],
+        "spawn_interval": 4.5
+      },
+      "day_3": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 6},
+          {"type": "swift_ghost", "count": 4},
+          {"type": "iron_elite", "count": 1}
+        ],
+        "spawn_interval": 3.5
+      }
+    },
+    "night": {
+      "day_1": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 10},
+          {"type": "swift_ghost", "count": 2}
+        ],
+        "spawn_interval": 7.0
+      },
+      "day_2": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 14},
+          {"type": "swift_ghost", "count": 6},
+          {"type": "iron_elite", "count": 2}
+        ],
+        "spawn_interval": 4.0
+      },
+      "day_3": {
+        "enemies": [
+          {"type": "chaos_grunt", "count": 18},
+          {"type": "swift_ghost", "count": 8},
+          {"type": "iron_elite", "count": 4}
+        ],
+        "spawn_interval": 3.0
+      }
+    }
+  },
+  "boss": {
+    "enabled": true,
+    "boss_type": "shadow_lord",
+    "spawn_day": 3,
+    "spawn_time": "night",
+    "spawn_delay": 60.0
+  },
+  "difficulty": "normal",
+  "rewards": {
+    "victory_gold": 200
+  }
+}
