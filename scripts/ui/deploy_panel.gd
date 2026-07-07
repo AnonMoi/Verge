@@ -12,6 +12,7 @@ class CharButtonData:
 	var range_cells: float
 	var color: Color
 	var button: Button
+	var bg_texture_rect: TextureRect = null  # 按钮背景图节点
 
 # 角色选中状态
 var selected_char_id: String = ""
@@ -58,6 +59,7 @@ func _ready() -> void:
 
 	SignalBus.gold_changed.connect(_refresh_buttons)
 	SignalBus.cycle_phase_changed.connect(_on_phase_changed)
+	SignalBus.char_background_changed.connect(_on_char_background_changed)
 	_refresh_buttons()
 
 
@@ -89,6 +91,15 @@ func _setup_button(btn: Button, id: String, name_str: String, cost: int, deploy_
 		return
 	btn.mouse_filter = Control.MOUSE_FILTER_STOP
 	btn.focus_mode = Control.FOCUS_NONE  # 防止焦点干扰
+
+	# 创建背景图 TextureRect 子节点（放在按钮文字层下方）
+	var bg_rect := TextureRect.new()
+	bg_rect.name = "BgTexture"
+	bg_rect.stretch_mode = 4  # TextureRect.StretchMode.KEEP_ASPECT_COVER
+	bg_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg_rect.visible = false  # 默认隐藏，有纹理时才显示
+	btn.add_child(bg_rect, false)  # add_child(front=false) → 放在最底层
+
 	var data := CharButtonData.new()
 	data.id = id
 	data.name_str = name_str
@@ -97,7 +108,34 @@ func _setup_button(btn: Button, id: String, name_str: String, cost: int, deploy_
 	data.range_cells = range_cells
 	data.color = range_color
 	data.button = btn
+	data.bg_texture_rect = bg_rect
 	char_buttons.append(data)
+
+
+# ==================== 按钮背景图设置 ====================
+
+## 公开方法：通过纹理路径设置角色按钮背景图
+## char_id: 角色ID（如 "pioneer", "defender", "sniper"）
+## texture_path: 纹理资源路径（如 "res://ui/char_bg.png"）
+func set_char_background(char_id: String, texture_path: String) -> void:
+	var texture := load(texture_path)
+	set_char_background_texture(char_id, texture)
+
+
+## 公开方法：直接传入 Texture2D 对象设置角色按钮背景图
+func set_char_background_texture(char_id: String, texture: Texture2D) -> void:
+	for data in char_buttons:
+		if data.id == char_id and data.bg_texture_rect:
+			data.bg_texture_rect.texture = texture
+			data.bg_texture_rect.visible = (texture != null)
+			print("[DeployPanel] 角色 %s 按钮背景图已更新: %s" % [char_id, texture.resource_path if texture else "null"])
+			return
+	printerr("[DeployPanel] 未找到角色按钮: ", char_id)
+
+
+## SignalBus 信号回调 — 其他模块可通过信号触发背景图更换
+func _on_char_background_changed(char_id: String, texture_path: String) -> void:
+	set_char_background(char_id, texture_path)
 
 
 # ==================== 角色选中 ====================

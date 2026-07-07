@@ -45,17 +45,8 @@ func _ready() -> void:
 		speed = stats.speed
 		core_damage = stats.core_damage
 	hp = max_hp  # 初始化当前生命
-	# 硬编码路径点（与 main_game.tscn 中 PathVisual 的 ColorRect 对齐）
-	# 格子大小 64px，坐标取格子中心
-	# 路径走向：左边缘(32,320) → 水平右到拐点1(416,320) → 向下到拐点2(416,448)
-	#         → 水平右行到拐点3(800,448) → 向上到终点/核心(800,352)
-	path_points = [
-		Vector2(32, 320),      # 起点：左侧边缘
-		Vector2(416, 320),     # 拐点1：水平右移结束，准备向下
-		Vector2(416, 448),     # 拐点2：竖直下移结束，准备向右
-		Vector2(800, 448),     # 拐点3：水平右移结束，准备向上
-		Vector2(800, 352),     # 终点：核心位置
-	]
+	# 从 PathManager 动态获取路径点（兼容旧版：如果 PathManager 未初始化则 fallback 硬编码）
+	path_points = _load_path_points()
 
 	# 设置初始位置为第一个路径点
 	if path_points.size() > 0:
@@ -68,6 +59,37 @@ func _ready() -> void:
 		print("[EnemyMovement] 找到核心节点: ", core_node.name)
 	else:
 		printerr("[EnemyMovement] 未找到核心节点!")
+
+## 加载路径点：优先从 PathManager，fallback 硬编码
+func _load_path_points() -> Array[Vector2]:
+	# 检查 PathManager autoload
+	if _has_path_manager():
+		var points := PathManager.get_path_points()
+		if points and points.size() > 1:
+			# 调整终点 y 坐标与核心对齐（原逻辑中终点为 352 而非 320）
+			var last: Vector2 = Vector2(points[-1])
+			last.y = 352.0  # 与原核心位置对齐
+			points[-1] = last
+			print("[EnemyMovement] 从 PathManager 加载路径点: ", points)
+			return points
+
+	# Fallback: 硬编码路径点（与原始 ColorRect 布局对齐）
+	# 格子大小 64px，坐标取格子中心
+	# 路径：左边缘(32,320) → 右到拐点1(416,320) → 下到拐点2(416,448)
+	#         → 右到拐点3(800,448) → 向上到终点/核心(800,352)
+	print("[EnemyMovement] PathManager 无数据，使用硬编码路径点")
+	return [
+		Vector2(32, 320),      # 起点：左侧边缘
+		Vector2(416, 320),     # 拐点1：水平右移结束，准备向下
+		Vector2(416, 448),     # 拐点2：竖直下移结束，准备向右
+		Vector2(800, 448),     # 拐点3：水平右移结束，准备向上
+		Vector2(800, 352),     # 终点：核心位置
+	]
+
+## 检查 PathManager autoload 是否可用
+func _has_path_manager() -> bool:
+	var root := get_tree().root
+	return root != null and root.has_node("PathManager")
 
 
 # ---------- 每帧移动 ----------

@@ -1,0 +1,42 @@
+{
+  "comment": "教学关路径配置 — tile_size=64, 网格取格子中心",
+  "tile_size": 64,
+
+  "default_textures": {
+	"h": "",
+	"v": "",
+	"corner_down": "",
+	"corner_up": "",
+	"corner_right": "",
+	"start": "",
+	"end": ""
+  },
+
+  "tiles": [
+	{"x": 0,  "y": 5, "dir": "h"},
+	{"x": 1,  "y": 5, "dir": "h"},
+	{"x": 2,  "y": 5, "dir": "h"},
+	{"x": 3,  "y": 5, "dir": "h"},
+	{"x": 4,  "y": 5, "dir": "h"},
+	{"x": 5,  "y": 5, "dir": "h"},
+	{"x": 6,  "y": 5, "dir": "corner_down"},
+	{"x": 6,  "y": 6, "dir": "v"},
+	{"x": 6,  "y": 7, "dir": "corner_right"},
+	{"x": 7,  "y": 7, "dir": "h"},
+	{"x": 8,  "y": 7, "dir": "h"},
+	{"x": 9,  "y": 7, "dir": "h"},
+	{"x": 10, "y": 7, "dir": "h"},
+	{"x": 11, "y": 7, "dir": "h"},
+	{"x": 12, "y": 7, "dir": "corner_up"},
+	{"x": 12, "y": 6, "dir": "v"},
+	{"x": 12, "y": 5, "dir": "h"}
+  ],
+
+  "waypoints": [
+	{"x": 0,  "y": 5},
+	{"x": 6,  "y": 5},
+	{"x": 6,  "y": 7},
+	{"x": 12, "y": 7},
+	{"x": 12, "y": 5}
+  ]
+}
