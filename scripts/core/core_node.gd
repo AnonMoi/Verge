@@ -32,6 +32,9 @@ func take_damage(amount: float) -> void:
 	SignalBus.core_damaged.emit(amount, current_hp)
 	SignalBus.core_hp_changed.emit(current_hp)
 
+	# 核心被击像素特效（抖动 + 冲击波 + 碎片）
+	EffectsManager.spawn_core_hit_effect(self)
+
 	# 受伤闪白效果
 	_play_damage_flash()
 
@@ -57,5 +60,7 @@ func _destroy() -> void:
 		return
 	is_destroyed = true
 	print("[CoreNode] 核心被摧毁!")
+	# 核心被摧毁大爆炸特效
+	EffectsManager.spawn_core_destroyed_effect(global_position)
 	SignalBus.core_destroyed.emit()
 	# 后续由 GameManager 处理 game_over 流程

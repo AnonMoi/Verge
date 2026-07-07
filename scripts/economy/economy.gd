@@ -51,6 +51,9 @@ func on_mine_produced(mine_node: Node) -> void:
 	gold += amount
 	GameManager.total_gold_earned += amount
 	broadcast_gold_changed(amount)
+	# 金矿产出浮字（像素风 +N★）
+	if mine_node is Node2D:
+		EffectsManager.spawn_gold_number((mine_node as Node2D).global_position, amount)
 
 func register_mine(mine_node: Node) -> void:
 	mines.append(mine_node)
