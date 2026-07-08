@@ -150,7 +150,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"death",
-"speed": 1.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -219,7 +219,7 @@ modulate = Color(0.85, 0.85, 0.4, 0.7)
 position = Vector2(2, -56)
 scale = Vector2(0.85, 0.92)
 sprite_frames = SubResource("GhostSpriteFrames")
-animation = &"idle"
+animation = &"death"
 
 [node name="EnemyAnimationController" type="Node" parent="." unique_id=1752849249]
 script = ExtResource("2_enemy_anim_ctrl")
