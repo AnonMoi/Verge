@@ -124,19 +124,19 @@ func _dissolve_enemies() -> void:
 		if "has_reached_core" in enemy:
 			enemy.has_reached_core = true
 
-		# 立即改 modulate + scale（直接显式，不靠 tween）
+		# 黎明清屏不走死亡动画，直接快速消散
 		enemy.scale = Vector2(0.05, 0.05)
 		enemy.modulate = Color(1, 1, 1, 0)
 		valid_count += 1
 
 	print("[DawnEffect] 立即消散 %d 个敌人" % valid_count)
 
-	# 然后再做 tween 动画
+	# 立即销毁，避免黎明清屏拖慢节奏
 	for enemy in enemies:
 		if not is_instance_valid(enemy):
 			continue
-		# 直接 queue_free（tween 之前已经直接改了 scale/modulate）
 		enemy.queue_free()
+
 
 
 # ---------- 角色回血 ----------

@@ -332,6 +332,7 @@ script = ExtResource("7_controller_script")
 [node name="Background" type="TextureRect" parent="." unique_id=1224521612]
 offset_right = 1920.0
 offset_bottom = 1080.0
+modulate = Color(0.95, 0.98, 0.95, 0.98)
 texture = ExtResource("2_fetp2")
 script = ExtResource("2_bg_controller_script")
 day_bg = ExtResource("2_fetp2")
@@ -575,7 +576,7 @@ offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
 mouse_filter = 2
-color = Color(0.4, 0.5, 0.7, 0.35)
+color = Color(0.62, 0.86, 1.0, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeploySlots/Slot16" unique_id=728232482]
 shape = SubResource("RectShape2D_slot")
@@ -593,7 +594,7 @@ offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
 mouse_filter = 2
-color = Color(0.4, 0.5, 0.7, 0.35)
+color = Color(0.62, 0.86, 1.0, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeploySlots/Slot17" unique_id=774763459]
 shape = SubResource("RectShape2D_slot")
@@ -611,7 +612,7 @@ offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
 mouse_filter = 2
-color = Color(0.4, 0.5, 0.7, 0.35)
+color = Color(0.62, 0.86, 1.0, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeploySlots/Slot18" unique_id=490714744]
 shape = SubResource("RectShape2D_slot")

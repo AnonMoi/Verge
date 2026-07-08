@@ -327,12 +327,14 @@ func take_damage(amount: float) -> void:
 		_die()
 
 
-## 死亡处理 —— 缩小消失 + 掉金币
+## 死亡处理 —— 先播死亡动画，再延迟销毁
 func _die() -> void:
 	if is_dead:
 		return
 	is_dead = true
 	_release_from_blocker()
+	velocity = Vector2.ZERO
+	wait_remaining = 0.0
 
 	print("[EnemyMovement] 敌人(%s)被击杀!" % enemy_type)
 
@@ -345,19 +347,37 @@ func _die() -> void:
 	# 给 Economy 加金币
 	Economy.on_enemy_killed(enemy_type)
 
-	# 死亡动画：通过动画控制器播放（有 death 动画则播放，否则立即销毁）
+	# 死亡动画：播放完以后保留 1 秒尸体，再销毁
 	if anim_controller and anim_controller.has_method("play_death"):
 		if anim_controller.has_signal("death_animation_finished"):
-			anim_controller.connect("death_animation_finished", self.queue_free, CONNECT_ONE_SHOT)
+			anim_controller.connect("death_animation_finished", self._on_death_animation_finished, CONNECT_ONE_SHOT)
 		anim_controller.play_death()
-		# 兜底：2秒后强制销毁（防止动画控制器信号不触发导致尸体残留）
-		get_tree().create_timer(2.0).timeout.connect(func(): if is_instance_valid(self): queue_free())
 	else:
-		# 兼容旧逻辑：没有动画控制器时用 Tween
+		# 兼容旧逻辑：没有动画控制器时用 Tween 做缩放淡出，再延迟销毁
 		var tween := create_tween()
-		tween.tween_property(self, "scale", Vector2(0.1, 0.1), 0.4)
-		tween.parallel().tween_property(self, "modulate:a", 0.0, 0.4)
-		tween.connect("finished", queue_free)
+		tween.tween_property(self, "scale", Vector2(0.85, 0.85), 0.15)
+		tween.parallel().tween_property(self, "modulate:a", 0.0, 0.6)
+		tween.parallel().tween_property(self, "position:y", position.y + 8.0, 0.6)
+		tween.connect("finished", func() -> void:
+			if is_instance_valid(self):
+				get_tree().create_timer(1.0).timeout.connect(func(): if is_instance_valid(self): queue_free()))
+
+
+
+## 死亡动画播完后的回调：尸体再停留 1 秒后销毁
+func _on_death_animation_finished() -> void:
+	if not is_instance_valid(self):
+		return
+	var tween := create_tween()
+	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.35)
+	tween.parallel().tween_property(self, "scale", Vector2(0.9, 0.9), 0.35)
+	tween.parallel().tween_property(self, "position:y", position.y + 8.0, 0.35)
+	await get_tree().create_timer(1.0).timeout
+	if is_instance_valid(self):
+		queue_free()
+
+
+
 
 
 # ---------- 工具函数 ----------
