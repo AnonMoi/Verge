@@ -51,37 +51,26 @@ func _process(_delta: float) -> void:
 
 
 # ---------- 高台槽高亮（方案 3） ----------
-## 选中狙击（deploy_type=high）时，让 high 槽显示浅蓝色 Highlight
+## 选中狙击（deploy_type=high）时，让 high 槽显示更明显的高亮
 func _check_high_slot_highlight() -> void:
 	if not highlight:
 		return  # ground 槽无 Highlight 节点
 	if is_actually_occupied():
-		highlight.visible = false
+		_hide_highlight()
 		return
 
 	var panel := _get_deploy_panel()
 	if not panel:
-		highlight.visible = false
+		_hide_highlight()
 		return
 
-	# 检查是否选中狙击
-	var sel_char = panel.get("selected_char_id")
-	if sel_char == null or sel_char == "":
-		highlight.visible = false
-		return
+	var should_highlight := _should_highlight_for_panel(panel)
+	if should_highlight:
+		_show_highlight()
+	else:
+		_hide_highlight()
 
-	# 遍历角色按钮数据，找到狙击的 deploy_type
-	var char_buttons = panel.get("char_buttons")
-	if char_buttons == null:
-		highlight.visible = false
-		return
 
-	for data in char_buttons:
-		if data.get("id") == sel_char and data.get("deploy_type") == "high":
-			highlight.visible = true
-			return
-
-	highlight.visible = false
 
 
 # ---------- 点击输入 ----------
@@ -159,13 +148,23 @@ func try_deploy(character_scene: PackedScene, cost: int, type: String) -> bool:
 		printerr("[DeploySlot] 位%d已被占用!" % slot_index)
 		return false
 
-	# 2026-07-01: 取消类型检查，地面角色/金矿可放任何 ground 部署位
-	# （狙击仍走自己的 high 部署位）
+	# 类型检查：狙击只能放 high，其他角色只能放 ground
+	# 这样可以防止绕过 DeployPanel 直接调用 try_deploy 时误放到地面
+	if type == "high" and slot_type != "high":
+		_show_type_mismatch_hint("狙击只能部署在高台位")
+		printerr("[DeploySlot] 位%d类型不匹配: 需要high, 当前%s" % [slot_index, slot_type])
+		return false
+	if type == "ground" and slot_type != "ground":
+		_show_type_mismatch_hint("该角色只能部署在地面位")
+		printerr("[DeploySlot] 位%d类型不匹配: 需要ground, 当前%s" % [slot_index, slot_type])
+		return false
+
 
 	# 检查金币
 	if not Economy.can_afford(cost):
 		printerr("[DeploySlot] 金币不足! 需要%d, 当前%d" % [cost, Economy.gold])
 		return false
+
 
 	# 扣钱
 	if not Economy.spend_gold(cost):
@@ -234,13 +233,56 @@ func _show_recall_options() -> void:
 		panel.on_occupied_slot_clicked(self, deployed_character)
 
 
-# ---------- 视觉更新 ----------
+	# ---------- 视觉更新 ----------
 # 2026-07-01: 无任何视觉显示 — 部署位 0 颜色，完全无黄/蓝/任何色
 
 
+func _should_highlight_for_panel(panel: Node) -> bool:
+	if not panel:
+		return false
+	var sel_char = panel.get("selected_char_id")
+	if sel_char == null or sel_char == "":
+		return false
+	var char_buttons = panel.get("char_buttons")
+	if char_buttons == null:
+		return false
+	for data in char_buttons:
+		if data.get("id") == sel_char and data.get("deploy_type") == "high":
+			return true
+	return false
+
+
+func _show_highlight() -> void:
+	if not highlight:
+		return
+	highlight.visible = true
+	highlight.modulate = Color(0.68, 0.88, 1.0, 0.48)
+	highlight.scale = Vector2.ONE
+	var tw := create_tween().set_loops()
+	tw.tween_property(highlight, "modulate:a", 0.78, 0.55).set_trans(Tween.TRANS_SINE)
+	tw.parallel().tween_property(highlight, "scale", Vector2(1.07, 1.07), 0.55).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(highlight, "modulate:a", 0.32, 0.55).set_trans(Tween.TRANS_SINE)
+	tw.parallel().tween_property(highlight, "scale", Vector2.ONE, 0.55).set_trans(Tween.TRANS_SINE)
+
+
+
+func _hide_highlight() -> void:
+	if not highlight:
+		return
+	highlight.visible = false
+
+
+func _show_type_mismatch_hint(message: String) -> void:
+	var panel := _get_deploy_panel()
+	if panel and panel.has_method("show_deploy_hint"):
+		panel.show_deploy_hint(message)
+
+
 # ---------- 工具函数 ----------
+
 ## 金矿位直接放置金矿（不经过 DeployPanel 选择）
 func _try_place_mine() -> void:
+
 	const MINE_COST := 50
 	const MAX_MINES := 2  # 策划书 3.5: 金矿上限 2 个
 

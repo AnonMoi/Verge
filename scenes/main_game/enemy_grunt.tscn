@@ -151,7 +151,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"death",
-"speed": 1.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -204,9 +204,7 @@ shape = SubResource("CircleShape2D_grunt")
 position = Vector2(2, -56)
 scale = Vector2(1, 1.08)
 sprite_frames = SubResource("GruntSpriteFrames")
-animation = &"attack"
-frame = 9
-frame_progress = 1.0
+animation = &"death"
 
 [node name="EnemyAnimationController" type="Node" parent="." unique_id=1398093543]
 script = ExtResource("2_enemy_anim_ctrl")

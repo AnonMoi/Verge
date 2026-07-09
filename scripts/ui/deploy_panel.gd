@@ -33,6 +33,11 @@ var recall_title: Label = null
 var recall_info: Label = null
 var recall_button: Button = null
 var recall_close_button: Button = null
+var deploy_hint_panel: Panel = null
+var deploy_hint_icon: Label = null
+var deploy_hint_label: Label = null
+var deploy_hint_tween: Tween = null
+
 
 @onready var pioneer_btn: Button = $PioneerBtn
 @onready var defender_btn: Button = $DefenderBtn
@@ -64,6 +69,8 @@ func _ready() -> void:
 		selected_indicator.visible = false
 
 	_build_recall_panel()
+	_build_deploy_hint()
+
 
 	# 监听部署位 hover 事件，更新范围预览位置
 	# (SignalBus 由 deploy_slot 在 _ready 中 connect)
@@ -218,8 +225,78 @@ func _hide_range_preview() -> void:
 		range_preview.visible = false
 
 
+# ==================== 错误提示面板 ====================
+func _build_deploy_hint() -> void:
+	if deploy_hint_panel:
+		return
+	deploy_hint_panel = Panel.new()
+	deploy_hint_panel.visible = false
+	deploy_hint_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	deploy_hint_panel.z_index = 120
+	deploy_hint_panel.custom_minimum_size = Vector2(300, 64)
+	var hint_style := StyleBoxFlat.new()
+	hint_style.bg_color = Color(0.08, 0.09, 0.13, 0.92)
+	hint_style.border_color = Color(0.95, 0.75, 0.25, 0.95)
+	hint_style.set_border_width_all(2)
+	hint_style.set_corner_radius_all(10)
+	hint_style.set_content_margin_all(10.0)
+	deploy_hint_panel.add_theme_stylebox_override("panel", hint_style)
+	add_child(deploy_hint_panel)
+
+	var row := HBoxContainer.new()
+	row.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row.offset_left = 12
+	row.offset_top = 8
+	row.offset_right = -12
+	row.offset_bottom = -8
+	row.add_theme_constant_override("separation", 8)
+	deploy_hint_panel.add_child(row)
+
+	deploy_hint_icon = Label.new()
+	deploy_hint_icon.text = "⚠"
+	deploy_hint_icon.add_theme_font_size_override("font_size", 24)
+	deploy_hint_icon.add_theme_color_override("font_color", Color(1.0, 0.83, 0.32))
+	row.add_child(deploy_hint_icon)
+
+	deploy_hint_label = Label.new()
+	deploy_hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	deploy_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	deploy_hint_label.add_theme_font_size_override("font_size", 18)
+	deploy_hint_label.add_theme_color_override("font_color", Color(0.98, 0.95, 0.88))
+	deploy_hint_label.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.08, 1.0))
+	deploy_hint_label.add_theme_constant_override("outline_size", 4)
+	row.add_child(deploy_hint_label)
+
+
+func show_deploy_hint(message: String) -> void:
+	if not deploy_hint_panel or not deploy_hint_label:
+		_build_deploy_hint()
+	if not deploy_hint_panel or not deploy_hint_label:
+		return
+	if deploy_hint_tween:
+		deploy_hint_tween.kill()
+	deploy_hint_label.text = message
+	deploy_hint_panel.visible = true
+	deploy_hint_panel.scale = Vector2(0.96, 0.96)
+	deploy_hint_panel.modulate = Color(1, 1, 1, 0.0)
+	var viewport_size := get_viewport().get_visible_rect().size
+	deploy_hint_panel.position = Vector2(viewport_size.x * 0.5 - 150.0, 540)
+
+	deploy_hint_tween = create_tween()
+	deploy_hint_tween.tween_property(deploy_hint_panel, "modulate:a", 1.0, 0.08)
+	deploy_hint_tween.parallel().tween_property(deploy_hint_panel, "scale", Vector2(1.0, 1.0), 0.12).set_trans(Tween.TRANS_BACK)
+	deploy_hint_tween.tween_interval(1.8)
+	deploy_hint_tween.tween_property(deploy_hint_panel, "modulate:a", 0.0, 0.22)
+	deploy_hint_tween.parallel().tween_property(deploy_hint_panel, "position:y", 530, 0.22)
+	deploy_hint_tween.finished.connect(func() -> void:
+		if deploy_hint_panel:
+			deploy_hint_panel.visible = false
+	)
+
+
 # ==================== 已部署角色撤回面板 ====================
 func _build_recall_panel() -> void:
+
 	if recall_panel:
 		return
 	recall_panel = Panel.new()

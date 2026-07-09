@@ -7,49 +7,52 @@ extends TextureRect
 @export var day_bg: Texture2D   # 白天背景 (Bright)
 @export var night_bg: Texture2D  # 夜晚背景 (Pale)
 
-const TRANSITION_DURATION: float = 0.8
+const TRANSITION_DURATION: float = 0.85
+const DAY_TINT: Color = Color(0.95, 0.98, 0.95, 1.0)
+const DUSK_TINT: Color = Color(0.88, 0.80, 0.72, 1.0)
+const NIGHT_TINT: Color = Color(0.76, 0.84, 0.96, 1.0)
+const DAY_ALPHA: float = 0.98
+const DUSK_ALPHA: float = 0.88
+const NIGHT_ALPHA: float = 0.80
+
+
 var _is_transitioning: bool = false
+var _target_tint: Color = DAY_TINT
+var _target_alpha: float = DAY_ALPHA
 
 func _ready() -> void:
 	# 默认显示白天背景
 	texture = day_bg
-	modulate.a = 1.0
+	modulate = Color(DAY_TINT.r, DAY_TINT.g, DAY_TINT.b, DAY_ALPHA)
 
 	# 监听阶段切换信号
 	SignalBus.cycle_phase_changed.connect(_on_phase_changed)
 
 
-func _on_phase_changed(phase_name: String) -> void:
-	if TimeCycle.current_phase == TimeCycle.Phase.NIGHT:
-		_switch_to(night_bg)
-	else:
-		# DAY / DUSK → 白天背景
-		_switch_to(day_bg)
+func _on_phase_changed(_phase_name: String) -> void:
+	match TimeCycle.current_phase:
+		TimeCycle.Phase.DAY:
+			_switch_to(day_bg, DAY_TINT, DAY_ALPHA)
+		TimeCycle.Phase.DUSK:
+			_switch_to(day_bg, DUSK_TINT, DUSK_ALPHA)
+		TimeCycle.Phase.NIGHT:
+			_switch_to(night_bg, NIGHT_TINT, NIGHT_ALPHA)
 
 
-func _switch_to(new_texture: Texture2D) -> void:
-	if _is_transitioning:
-		return
-	if texture == new_texture:
+func _switch_to(new_texture: Texture2D, tint_color: Color, alpha: float) -> void:
+	if _is_transitioning and texture == new_texture and is_equal_approx(_target_alpha, alpha) and _target_tint == tint_color:
 		return
 
 	_is_transitioning = true
+	_target_tint = tint_color
+	_target_alpha = alpha
 
-	# 淡出
-	var tween_out := create_tween()
-	tween_out.tween_property(self, "modulate:a", 0.0, TRANSITION_DURATION / 2.0)
-	tween_out.connect("finished", _on_transition_out_done.bind(new_texture))
-
-
-func _on_transition_out_done(new_texture: Texture2D) -> void:
-	# 切换纹理
-	texture = new_texture
-
-	# 淡入
-	var tween_in := create_tween()
-	tween_in.tween_property(self, "modulate:a", 1.0, TRANSITION_DURATION / 2.0)
-	tween_in.connect("finished", _on_transition_in_done)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "modulate", Color(tint_color.r, tint_color.g, tint_color.b, alpha), TRANSITION_DURATION)
+	tween.connect("finished", func() -> void:
+		texture = new_texture
+		_is_transitioning = false
+	)
 
 
-func _on_transition_in_done() -> void:
-	_is_transitioning = false

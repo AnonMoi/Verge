@@ -1,21 +1,15 @@
-MIT License
-
 Copyright (c) 2026 Verge Team, Bistu-OSSDT-2026
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+保留所有权利（All Rights Reserved）。
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+本软件及附带文档（以下简称"软件"）的源代码仅供北京信息科技大学
+"开源软件开发技术"课程内部学习、交流、讨论与展示使用。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+未经全体团队成员书面授权，禁止任何个人或组织：
+  1. 将本软件的全部或部分用于商业目的
+  2. 对本软件进行再分发、再许可、销售、出租或转让
+  3. 将本软件集成到商业产品或服务中
+
+课程结束后，本软件的知识产权归属及相关商业化安排由团队成员另行协商确定。
+
+本软件按"现状"提供，不提供任何形式的明示或默示担保。
