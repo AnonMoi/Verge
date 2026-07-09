@@ -203,6 +203,43 @@ static var prologue_watched: bool = false
 static var pending_story_id: String = ""
 ## 剧情播放完毕后跳转的目标场景路径
 static var pending_story_next_scene: String = ""
+## 剧情章节标题（如 Chapter 0 - 序章）
+static var pending_story_chapter_title: String = ""
+
+static func start_story(story_id: String, next_scene: String, story_scene: String = "res://scenes/story/story_player.tscn", chapter_title: String = "") -> void:
+	pending_story_id = story_id
+	pending_story_next_scene = next_scene
+	pending_story_chapter_title = chapter_title
+	change_scene(story_scene)
+
+
+static func clear_story_context() -> void:
+	pending_story_id = ""
+	pending_story_next_scene = ""
+	pending_story_chapter_title = ""
+
+
+
+static func reset_global_run_state() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree:
+		tree.paused = false
+	Engine.time_scale = 1.0
+	if typeof(GameManager) != TYPE_NIL:
+		if GameManager.has_method("set_paused"):
+			GameManager.set_paused(false)
+		GameManager.current_day = 1
+		GameManager.is_game_over = false
+		GameManager.is_game_won = false
+		GameManager.is_paused = false
+		GameManager.perfect_clear = false
+		GameManager.total_gold_earned = 0
+		GameManager.total_deployed = 0
+		GameManager.total_kills = 0
+	if typeof(TimeCycle) != TYPE_NIL and TimeCycle.has_method("reset_state"):
+		TimeCycle.reset_state()
+	if typeof(Economy) != TYPE_NIL and Economy.has_method("reset_state"):
+		Economy.reset_state()
 
 
 # ============ 通用过渡：切换到下一个场景 ============
@@ -211,6 +248,7 @@ static func change_scene(path: String) -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree:
 		tree.change_scene_to_file(path)
+
 
 
 # ============ 按钮音效绑定 ============

@@ -71,20 +71,11 @@ func advance_phase() -> void:
 func trigger_dawn() -> void:
 	print("[TimeCycle] 黎明! 第 %d 天结束 (day=%d)" % [GameManager.current_day, GameManager.current_day])
 
-	# 发射黎明信号
+	# 发射黎明信号，由 GameSceneController 连接 DawnEffect 处理视觉特效
 	SignalBus.dawn_triggered.emit(GameManager.current_day)
 
-	# 直接调用 DawnEffect.play_dawn_effect()（保险：信号链可能断）
-	var scene := get_tree().current_scene
-	if scene:
-		var dawn := scene.find_child("DawnEffect", true, false)
-		if dawn and dawn.has_method("play_dawn_effect"):
-			print("[TimeCycle] ▶ 直接调用 DawnEffect.play_dawn_effect()")
-			dawn.play_dawn_effect()
-		else:
-			print("[TimeCycle] ⚠ 找不到 DawnEffect 节点")
-
 	# 黎明逻辑 —— 由 DawnEffect 处理敌人消散、角色恢复等视觉特效
+
 	is_cycle_active = false
 
 	# 用 Timer 节点等待 3 秒（比 await 更稳，避免 autoload await 状态问题）

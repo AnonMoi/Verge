@@ -1,9 +1,9 @@
 ## story_data.gd
 ## 剧情数据 — 定义所有剧情帧序列
 ## 每帧结构:
-##   { "type": "title",     "text": "..." }            标题(居中大字)
-##   { "type": "narration", "text": "..." }            旁白(左对齐)
-##   { "type": "dialogue",  "speaker": "Kane", "text": "..." }  对话(带角色名)
+##   { "type": "title",      "text": "..." }          旧标题帧（当前按旁白显示）
+##   { "type": "narration",  "text": "..." }          旁白
+##   { "type": "dialogue",   "speaker": "Kane", "text": "..." }  对话
 ##
 ## 新增剧情: 在 get_story 的 match 里加新分支 + 对应 _xxx() 函数
 
@@ -28,16 +28,16 @@ static func get_story(story_id: String) -> Array:
 # ============ 序章:通用前置世界观(游戏开篇图鉴短篇) ============
 static func _prologue() -> Array:
 	return [
-		{ "type": "title", "text": "Kane是一名擅长推理游戏的少年，他和所有人一样过着安逸的生活" },
-		{ "type": "narration", "text": "一次偶然的穿越打乱了他的生活" },
+		{ "type": "narration", "text": "Kane是一名擅长推理游戏的少年，他和所有人一样过着安逸的生活。" },
+		{ "type": "narration", "text": "一次偶然的穿越打乱了他的生活。" },
 		{ "type": "narration", "text": "这是哪里？" },
-		{ "type": "narration", "text": "这片大陆叫做环界大陆，大陆的中心是一个名为奥斯特兰的王国，周围被火山、冰川等复杂地形包裹" },
-		{ "type": "narration", "text": "王国中的人民安居乐业" },
-		{ "type": "narration", "text": "殊不知，虚空力量正企图入侵这片土地" },
-		{ "type": "narration", "text": "王室贵族和边疆首领正被虚空力量暗中操控，战争不断" },
-		{ "type": "narration", "text": "平凡的边境少女丽塔,见证了无数战乱。一次偶然的相遇，他结识了刚穿越来的Kane" },
-		{ "type": "narration", "text": "他们会做出怎样的行动，王国的未来何去何从，Kane又该如何回到现实世界？？？" },
-		{ "type": "title", "text": "钟摆未眠,黎明将至" },
+		{ "type": "narration", "text": "这片大陆叫做环界大陆，大陆的中心是一个名为奥斯特兰的王国，周围被火山、冰川等复杂地形包裹。" },
+		{ "type": "narration", "text": "王国中的人民安居乐业。" },
+		{ "type": "narration", "text": "殊不知，虚空力量正企图入侵这片土地。" },
+		{ "type": "narration", "text": "王室贵族和边疆首领正被虚空力量暗中操控，战争不断。" },
+		{ "type": "narration", "text": "平凡的边境少女丽塔，见证了无数战乱。一次偶然的相遇，她结识了刚穿越来的Kane。" },
+		{ "type": "narration", "text": "他们会做出怎样的行动，王国的未来何去何从，Kane又该如何回到现实世界？" },
+		{ "type": "narration", "text": "钟摆未眠，黎明将至。" },
 	]
 
 

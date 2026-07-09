@@ -27,8 +27,9 @@ func _ready() -> void:
 
 
 # ---------- 触发黎明特效（由 TimeCycle.trigger_dawn 调用）----------
-func play_dawn_effect() -> void:
+func play_dawn_effect(_day_index: int = 0) -> void:
 	print("[DawnEffect] ▶ 开始黎明清屏特效!")
+
 
 	# 1. 全屏白色闪光
 	_play_flash()

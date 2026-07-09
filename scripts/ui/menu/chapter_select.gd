@@ -132,8 +132,14 @@ func _make_card(c: Chapter, unlocked: bool) -> Control:
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		var _c := c  # 捕获循环变量
 		card.gui_input.connect(func(ev: InputEvent) -> void: _on_card_input(_c, ev))
-		card.mouse_entered.connect(func() -> void: _tween_card(card, sb, c.theme_color, 1.02))
-		card.mouse_exited.connect(func() -> void: _tween_card(card, sb, (c.theme_color), 1.0))
+		card.mouse_entered.connect(func() -> void:
+			if is_instance_valid(card):
+				_tween_card(card, sb, c.theme_color, 1.02)
+		)
+		card.mouse_exited.connect(func() -> void:
+			if is_instance_valid(card):
+				_tween_card(card, sb, c.theme_color, 1.0)
+		)
 	else:
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -171,30 +177,18 @@ func _on_card_clicked(c: Chapter) -> void:
 		MenuTheme.show_toast(self, DEV_MSG)
 		return
 	# 已实现关卡：进入游戏前重置全局状态，保证从菜单进来的局是干净的
-	_reset_global_state()
+	MenuTheme.reset_global_run_state()
 	# 教程关(index 0):先播放第一幕前置剧情,再进游戏
+
 	if c.index == 0:
-		MenuTheme.pending_story_id = StoryData.TUTORIAL_INTRO
-		MenuTheme.pending_story_next_scene = c.scene_path
-		MenuTheme.change_scene(STORY_PLAYER_SCENE)
+		MenuTheme.start_story(StoryData.TUTORIAL_INTRO, c.scene_path, STORY_PLAYER_SCENE, "Chapter 1 - 初次守候")
 	else:
 		MenuTheme.change_scene(c.scene_path)
 
 
-## 重置 autoload 残留状态（防止上一局的金币/天数/暂停等带进来）
-func _reset_global_state() -> void:
-	GameManager.current_day = 1
-	GameManager.is_game_over = false
-	GameManager.is_game_won = false
-	GameManager.is_paused = false
-	GameManager.perfect_clear = false
-	Engine.time_scale = 1.0
-	# TimeCycle / Economy 也复位
-	if TimeCycle.has_method("reset_state"):
-		TimeCycle.reset_state()
-	if Economy.has_method("reset_state"):
-		Economy.reset_state()
+
 
 
 func _on_back() -> void:
+
 	MenuTheme.change_scene(MAIN_MENU_SCENE)
