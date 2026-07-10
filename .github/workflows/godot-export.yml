@@ -1,6 +1,7 @@
 # Godot 项目自动导出
 # 每次 push 到 master 时自动导出 Windows/Linux/Web 版本
 # 需要先在 GitHub Secrets 中配置 GODOT_VERSION（可选，默认 4.2.1）
+# 手动触发: workflow_dispatch
 
 name: Godot 自动导出
 
