@@ -263,13 +263,13 @@ Verge_Project/
 
 ## 👥 团队
 
-| 姓名 | GitHub | 主要责任 |
-|------|--------|---------|
-| **王元辰** | [@AnonMoi](https://github.com/AnonMoi) | 核心系统开发 & 项目架构 |
-| 杨其融 | [@GoodGuoZhi](https://github.com/GoodGuoZhi) | 角色与场景美术 |
-| 于博言 | [@boYan223](https://github.com/boYan223) | 音效与特效 |
-| 胡宗跃 | [@Hzy-0313](https://github.com/Hzy-0313) | 剧情与关卡设计 |
-| 赵晨浩 | [@ZhaoChenhao6](https://github.com/ZhaoChenhao6) | 测试与版本管理 |
+| 成员 | 主要责任 |
+|------|---------|
+| [@AnonMoi](https://github.com/AnonMoi) | 核心系统开发 & 项目架构 |
+| [@GoodGuoZhi](https://github.com/GoodGuoZhi) | 角色与场景美术 |
+| [@boYan223](https://github.com/boYan223) | 音效与特效 |
+| [@Hzy-0313](https://github.com/Hzy-0313) | 剧情与关卡设计 |
+| [@ZhaoChenhao6](https://github.com/ZhaoChenhao6) | 测试与版本管理 |
 
 - **引擎**：Godot 4.x（GDScript）
 - **版本**：Demo v1.1（2026-07）
