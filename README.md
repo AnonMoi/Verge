@@ -2,7 +2,7 @@
 
 > **「钟摆未眠，黎明将至」**
 >
-> Demo v1.1 | Godot 4.x | 2D 策略塔防
+> v0.2 | Godot 4.x | 2D 策略塔防
 
 ---
 
@@ -272,7 +272,7 @@ Verge_Project/
 | [@ZhaoChenhao6](https://github.com/ZhaoChenhao6) | 测试与版本管理 |
 
 - **引擎**：Godot 4.x（GDScript）
-- **版本**：Demo v1.1（2026-07）
+- **版本**：v0.2（2026-07）
 
 ---
 
